@@ -2,6 +2,9 @@ package HW1GreedyAlg;
 
 import java.util.Arrays;
 
+/*
+ * Greedy Algorithm
+ */
 public class Greedy {
 
     public int[] startPuzzle;
@@ -54,7 +57,7 @@ public class Greedy {
 
     public static int caculateCost(int[] puzzle) {
         int totalCost = 0;
-        for (int i = 1; i <=9; i++) {
+        for (int i = 1; i <= 9; i++) {
             int pos = findNumPosition(puzzle, i % 9) + 1;
             totalCost = totalCost + Math.abs(pos - i) / 3 + Math.abs(pos - i) % 3;
         }
@@ -100,7 +103,7 @@ public class Greedy {
                 System.out.print("step:" + count++);
                 tempState.printState();
             } else {
-                System.out.println("*******************************************visitied");
+                System.out.println("visitied");
             }
             if (tempState.hCost == 0) {
                 System.out.println("succeed!");
@@ -128,12 +131,10 @@ public class Greedy {
     }
 
     public static void main(String[] args) {
-         int[] startPuzzle = new int[] { 1, 2, 3, 7, 5, 6, 8, 4, 0 };
-        //int[] startPuzzle = new int[] { 2, 5, 3, 1, 0, 6, 4, 7, 8 };
+        int[] startPuzzle = new int[] { 1, 2, 3, 7, 5, 6, 8, 4, 0 };
         int[] goalPuzzle = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 0 };
 
         Greedy greedy = new Greedy(startPuzzle, goalPuzzle);
-        // System.out.println(greedy.caculateCost(new int[] { 1, 2, 3, 7, 5, 0, 8, 4, 6 }));
         greedy.run();
     }
 }

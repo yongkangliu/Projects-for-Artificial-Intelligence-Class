@@ -1,39 +1,128 @@
 package PG1AStarAlg;
 
+import java.util.Arrays;
 
 public class State {
-    public static State rootState;
-    public int[] puzzleData = new int[0];
-    public int hCost = 0;
-    public int gCost = 0;
+	private static State goalState;
 
-    public State parent;
-    public State[] children = new State[0];
+	private int[] puzzleData = new int[0];
 
-    public boolean visited = false;
+	private int hCost = 0;
+	private int gCost = 0;
+	private int fCost = 0;
 
-    public State(int[] puzzleDate) {
-        this.puzzleData = puzzleDate;
-    }
+	private int calculateHCost(State goalState) {
+		int totalCost = 0;
+		for (int i = 1; i <= 9; i++) {
+			int currentPos = findNumberPosition(this.puzzleData, i % 9) + 1;
+			int goalPos = findNumberPosition(goalState.puzzleData, i % 9) + 1;
+			totalCost = totalCost + Math.abs(goalPos - currentPos) / 3 + Math.abs(goalPos - currentPos) % 3;
+		}
 
-    public int getHCost(State goalState) {
-        int totalCost = 0;
-        for (int i = 1; i <= 9; i++) {
-            int currentPos = findNumPosition(this.puzzleData, i % 9) + 1;
-            int goalPos = findNumPosition(goalState.puzzleData, i % 9) + 1;
-            totalCost = totalCost + Math.abs(goalPos - currentPos) / 3 + Math.abs(goalPos - currentPos) % 3;
-        }
+		return totalCost;
+	}
 
-        return totalCost;
-    }
+	private int findNumberPosition(int[] puzzleData, int number) {
+		for (int i = 0; i < puzzleData.length; i++) {
+			if (puzzleData[i] == number) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
-    private int findNumPosition(int[] puzzleData, int number) {
-        for (int i = 0; i < puzzleData.length; i++) {
-            if (puzzleData[i] == number) {
-                return i;
-            }
-        }
-        return -1;
-    }
+	private void exchangeValue(int[] puzzle, int a, int b) {
+		int temp = puzzle[a];
+		puzzle[a] = puzzle[b];
+		puzzle[b] = temp;
+	}
 
+	public State(int[] puzzleDate, int gCost) {
+		this.puzzleData = puzzleDate;
+		this.gCost = gCost;
+		if (State.goalState != null) {
+			this.hCost = calculateHCost(State.goalState);
+		}
+
+		this.fCost = this.hCost + this.gCost;
+	}
+
+	public int[] getPuzzleDate() {
+		return this.puzzleData;
+	}
+
+	public int getFCost() {
+		return this.fCost;
+	}
+
+	public static State getGoalState() {
+		return State.goalState;
+	}
+
+	public static void setGoalState(State state) {
+		State.goalState = state;
+	}
+
+	public void printState() {
+		System.out.println();
+		System.out.println("cost:" + hCost + " puzzle:" + Arrays.toString(this.puzzleData));
+	}
+
+	public boolean isSameState(State state) {
+		if (Arrays.equals(state.puzzleData, this.puzzleData)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public int[] getMoveDirections() {
+		// if direction = 0, top block moves down.
+		// if direction = 1, right block moves to left.
+		// if direction = 2, bottom block moves up.
+		// if direction = 3, left block moves to right.
+		int zeroPosition = findNumberPosition(this.puzzleData, 0);
+
+		if (zeroPosition == 0) {
+			return new int[] { 1, 2 };
+		} else if (zeroPosition == 1) {
+			return new int[] { 1, 2, 3 };
+		} else if (zeroPosition == 2) {
+			return new int[] { 2, 3 };
+		} else if (zeroPosition == 3) {
+			return new int[] { 0, 1, 2 };
+		} else if (zeroPosition == 5) {
+			return new int[] { 0, 2, 3 };
+		} else if (zeroPosition == 6) {
+			return new int[] { 0, 1 };
+		} else if (zeroPosition == 7) {
+			return new int[] { 0, 1, 3 };
+		} else if (zeroPosition == 8) {
+			return new int[] { 0, 3 };
+		} else {// zeroPosition == 4
+			return new int[] { 0, 1, 2, 3 };
+		}
+	}
+
+	public State moveToNextState(int direction) {
+		// if direction = 0, top block moves down.
+		// if direction = 1, right block moves to left.
+		// if direction = 2, bottom block moves up.
+		// if direction = 3, left block moves to right.
+		int[] tempPuzzle = Arrays.copyOf(this.puzzleData, this.puzzleData.length);
+		int zeroPosition = findNumberPosition(tempPuzzle, 0);
+
+		if (direction == 0) {
+			exchangeValue(tempPuzzle, zeroPosition, zeroPosition - 3);
+		} else if (direction == 1) {
+			exchangeValue(tempPuzzle, zeroPosition, zeroPosition + 1);
+		} else if (direction == 2) {
+			exchangeValue(tempPuzzle, zeroPosition, zeroPosition + 3);
+		} else if (direction == 3) {
+			exchangeValue(tempPuzzle, zeroPosition, zeroPosition - 1);
+		}
+
+		State newState = new State(tempPuzzle, this.gCost + 1);
+		return newState;
+	}
 }

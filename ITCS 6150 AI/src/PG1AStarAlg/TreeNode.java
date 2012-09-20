@@ -4,69 +4,81 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeNode {
-	private static TreeNode rootNode;
+    private static TreeNode rootNode;
+    private static long numOfNodesGenerated = 0;
+    private static long numOfNodesExpanded = 0;
 
-	private State state;
+    private State state;
 
-	private TreeNode parent;
-	private TreeNode[] successors = new TreeNode[0];
+    private TreeNode parent;
+    private TreeNode[] successors = new TreeNode[0];
 
-	public TreeNode(State state, TreeNode parent) {
-		this.state = state;
-		this.parent = parent;
-	}
+    public TreeNode(State state, TreeNode parent) {
+        this.state = state;
+        this.parent = parent;
+        TreeNode.numOfNodesGenerated++;
+    }
 
-	public static void setRootNode(TreeNode node) {
-		TreeNode.rootNode = node;
-	}
+    public static void setRootNode(TreeNode node) {
+        TreeNode.rootNode = node;
+    }
 
-	public State getState() {
-		return this.state;
-	}
+    public static long getNumOfNodesGenerated() {
+        return TreeNode.numOfNodesGenerated;
+    }
 
-	public void printTreeNode() {
-		this.state.printState();
-	}
+    public static long getNumOfNodesExpanded() {
+        return TreeNode.numOfNodesExpanded;
+    }
 
-	public void printParentNodes() {
-		TreeNode tempNode = this;
-		while (tempNode != null) {
-			tempNode.printTreeNode();
-			tempNode = tempNode.parent;
-		}
-	}
+    public State getState() {
+        return this.state;
+    }
 
-	private boolean isStateExist(State state) {
-		List<TreeNode> list = new ArrayList<TreeNode>();
-		list.add(rootNode);
-		while (!list.isEmpty()) {
-			TreeNode treeNode = list.get(0);
-			if (treeNode.getState().isSameState(state)) {
-				return true;
-			}
-			if (treeNode.successors.length > 0) {
-				for (int i = 0; i < treeNode.successors.length; i++) {
-					list.add(treeNode.successors[i]);
-				}
-			}
-			list.remove(0);
-		}
+    public void printTreeNode() {
+        this.state.printState();
+    }
 
-		return false;
-	}
+    public void printParentNodes() {
+        TreeNode tempNode = this;
+        while (tempNode != null) {
+            tempNode.printTreeNode();
+            tempNode = tempNode.parent;
+        }
+    }
 
-	public TreeNode[] setSuccessors() {
-		int[] successorDirections = this.state.getMoveDirections();
-		List<TreeNode> list = new ArrayList<TreeNode>();
-		for (int i = 0; i < successorDirections.length; i++) {
-			State tempState = this.state.moveToNextState(successorDirections[i]);
-			if (!isStateExist(tempState)) {
-				TreeNode newState = new TreeNode(tempState, this);
-				list.add(newState);
-			}
-		}
-		this.successors = (TreeNode[]) list.toArray(new TreeNode[] {});
-		
-		return this.successors;
-	}
+    private boolean isStateExist(State state) {
+        List<TreeNode> list = new ArrayList<TreeNode>();
+        list.add(rootNode);
+        while (!list.isEmpty()) {
+            TreeNode treeNode = list.get(0);
+            if (treeNode.getState().isSameState(state)) {
+                return true;
+            }
+            if (treeNode.successors.length > 0) {
+                for (int i = 0; i < treeNode.successors.length; i++) {
+                    list.add(treeNode.successors[i]);
+                }
+            }
+            list.remove(0);
+        }
+
+        return false;
+    }
+
+    public TreeNode[] setSuccessors() {
+        TreeNode.numOfNodesExpanded++;
+        int[] successorDirections = this.state.getMoveDirections();
+        List<TreeNode> list = new ArrayList<TreeNode>();
+        for (int i = 0; i < successorDirections.length; i++) {
+            State tempState = this.state.moveToNextState(successorDirections[i]);
+            if (!isStateExist(tempState)) {
+                TreeNode newState = new TreeNode(tempState, this);
+                list.add(newState);
+            }
+        }
+        this.successors = (TreeNode[]) list.toArray(new TreeNode[] {});
+
+        return this.successors;
+    }
 }

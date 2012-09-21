@@ -11,6 +11,8 @@ public class State {
     private int gCost = 0;
     private int fCost = 0;
 
+    private int movedNodeName = -1;
+
     private int calculateHCost(State goalState) {
         int totalCost = 0;
         for (int i = 1; i <= 9; i++) {
@@ -63,6 +65,14 @@ public class State {
         State.goalState = state;
     }
 
+    public int getMovedNodeName() {
+        return movedNodeName;
+    }
+
+    public void setMovedNodeName(int movedNodeName) {
+        this.movedNodeName = movedNodeName;
+    }
+
     public void printState() {
         System.out.println();
         System.out.println("cost:" + hCost + " puzzle:" + Arrays.toString(this.puzzleData));
@@ -108,21 +118,27 @@ public class State {
         int[] tempPuzzle = Arrays.copyOf(this.puzzleData, this.puzzleData.length);
         int zeroPosition = findNumberPosition(tempPuzzle, 0);
 
+        int movedTileName = -1;
         if (direction == 0) {
             // When direction = 0, top tile moves down.
+            movedTileName = tempPuzzle[zeroPosition - 3];
             exchangeValue(tempPuzzle, zeroPosition, zeroPosition - 3);
         } else if (direction == 1) {
             // When direction = 1, right tile moves to left.
+            movedTileName = tempPuzzle[zeroPosition + 1];
             exchangeValue(tempPuzzle, zeroPosition, zeroPosition + 1);
         } else if (direction == 2) {
             // When direction = 2, bottom tile moves up.
+            movedTileName = tempPuzzle[zeroPosition + 3];
             exchangeValue(tempPuzzle, zeroPosition, zeroPosition + 3);
         } else if (direction == 3) {
             // When direction = 3, left tile moves to right.
+            movedTileName = tempPuzzle[zeroPosition - 1];
             exchangeValue(tempPuzzle, zeroPosition, zeroPosition - 1);
         }
 
         State newState = new State(tempPuzzle, this.gCost + 1);
+        newState.setMovedNodeName(movedTileName);
         return newState;
     }
 }

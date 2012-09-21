@@ -18,6 +18,8 @@ public class TileGUIPanels extends JFrame {
 
     private static final long serialVersionUID = 8173460509781322855L;
     private static int TILE_NUMBER = 9;
+
+    private static TileGUIPanels tileGUIPanels = null;
     private static JTextArea textArea;
     private static int[] start;
     private static int[] goal;
@@ -32,7 +34,7 @@ public class TileGUIPanels extends JFrame {
 
     public static void printLog(String str) {
         TileGUIPanels.textArea.append(str);
-        TileGUIPanels.textArea.append("\r\n");
+        TileGUIPanels.textArea.append("\r\n\r\n");
 
     }
 
@@ -44,7 +46,9 @@ public class TileGUIPanels extends JFrame {
 
     public TileGUIPanels() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        getContentPane().add(new JLabel("  Initial State                                              Goal State"),
+        setTitle("8 puzzle solver");
+
+        getContentPane().add(new JLabel("      Initial State                                              Goal State"),
                 BorderLayout.NORTH);
 
         JPanel panel1 = new JPanel();
@@ -68,26 +72,28 @@ public class TileGUIPanels extends JFrame {
         }
         getContentPane().add(panel2, BorderLayout.EAST);
 
-        JTextArea jTextArea = new JTextArea(10, 5);
+        JTextArea jTextArea = new JTextArea(15, 5);
         jTextArea.setLineWrap(true);
         JScrollPane jScrollPane = new JScrollPane(jTextArea);
         TileGUIPanels.textArea = jTextArea;
+
+        printLog("Usage:\r\nDrag the tiles to set the puzzle initial and goal states.\r\nThen click RUN to solve the puzzle.");
+        printLog("The result will display here.");
+        printLog("-- Made by Yongkang Liu for UNCC ITCS 6150 class --");
 
         getContentPane().add(jScrollPane, BorderLayout.SOUTH);
 
         runButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                JButton runButton = (JButton) event.getSource();
-                TileGUIPanels tileGUIPanels = (TileGUIPanels) runButton.getParent().getParent().getParent().getParent();
 
                 TileGUIPanels.start = new int[TILE_NUMBER];
                 for (int i = 0; i < TILE_NUMBER; i++) {
-                    TileGUIPanels.start[i] = Integer.valueOf(tileGUIPanels.initTiles[i].getName());
+                    TileGUIPanels.start[i] = Integer.valueOf(TileGUIPanels.tileGUIPanels.initTiles[i].getName());
                 }
 
                 TileGUIPanels.goal = new int[TILE_NUMBER];
                 for (int i = 0; i < TILE_NUMBER; i++) {
-                    TileGUIPanels.goal[i] = Integer.valueOf(tileGUIPanels.goalTiles[i].getName());
+                    TileGUIPanels.goal[i] = Integer.valueOf(TileGUIPanels.tileGUIPanels.goalTiles[i].getName());
                 }
 
                 new Thread(new Runnable() {
@@ -103,6 +109,6 @@ public class TileGUIPanels extends JFrame {
 
         pack();
         setResizable(false);
+        TileGUIPanels.tileGUIPanels = this;
     }
-
 }

@@ -8,6 +8,7 @@ public class TreeNode {
     private static long numOfNodesGenerated = 0;
     private static long numOfNodesExpanded = 0;
     private static long numOfStepsToGoal = 0;
+    private static String moveStepSequence = null;
 
     private State state;
 
@@ -31,7 +32,7 @@ public class TreeNode {
     }
 
     public static long getNumOfNodesGenerated() {
-        return TreeNode.numOfNodesGenerated - 1;
+        return TreeNode.numOfNodesGenerated;
     }
 
     public static long getNumOfNodesExpanded() {
@@ -39,7 +40,11 @@ public class TreeNode {
     }
 
     public static long getNumOfStepsToGoal() {
-        return TreeNode.numOfStepsToGoal - 1;
+        return TreeNode.numOfStepsToGoal;
+    }
+
+    public static String getMoveStepSequence() {
+        return moveStepSequence;
     }
 
     public State getState() {
@@ -51,12 +56,27 @@ public class TreeNode {
     }
 
     public void printParentNodes() {
-        TreeNode tempNode = this;
+        TreeNode tempNode = this.parent;
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        int moveStep = this.getState().getMovedNodeName();
+        if (moveStep > 0) {
+            list.add(0, moveStep);
+        }
         while (tempNode != null) {
             tempNode.printTreeNode();
+            moveStep = tempNode.getState().getMovedNodeName();
+            if (moveStep > 0) {
+                list.add(0, moveStep);
+            }
             tempNode = tempNode.parent;
-            TreeNode.numOfStepsToGoal++;
         }
+        TreeNode.numOfStepsToGoal = list.size();
+        String sequence = new String();
+        for (int i = 0; i < list.size(); i++) {
+            sequence += list.get(i) + " -> ";
+        }
+        sequence += "Goal";
+        TreeNode.moveStepSequence = sequence;
     }
 
     private boolean isStateExist(State state) {

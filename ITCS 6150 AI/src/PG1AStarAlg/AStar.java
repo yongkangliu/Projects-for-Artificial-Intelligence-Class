@@ -37,33 +37,29 @@ public class AStar {
 
         int count = 0;
         while (this.queueList.size() > 0) {
-            if (count++ > 20000) {
-                // System.out.println("the puzzle is too complex. failed!");
-                TileGUIPanels.printLog("The puzzle is too complex. Failed!");
+            if (count++ >= 10000) {
+                TileGUIPanels.printLog("The puzzle is too complex or unsolvable. Failed!");
+                TileGUIPanels.printLog("(Modify code to extend search time.)");
                 return false;
             }
-            TileGUIPanels.printLogReset("searching node number:" + count);
+            TileGUIPanels.printLogReset("Searching nodes:" + count);
             TreeNode tempState = this.queueList.get(0);
             this.queueList.remove(0);
-            // tempState.printTreeNode();
 
             if (tempState.getState().isSameState(State.getGoalState())) {
-                // System.out.println("Succeed!");
                 TileGUIPanels.printLog("Succeed!");
                 tempState.printParentNodes();
-                // System.out.println("Number Of Nodes Generated:" + TreeNode.getNumOfNodesGenerated());
-                // System.out.println("Number Of Nodes Expanded:" + TreeNode.getNumOfNodesExpanded());
                 TileGUIPanels.printLog("Number Of Steps To Goal:" + TreeNode.getNumOfStepsToGoal());
                 TileGUIPanels.printLog("Number Of Nodes Expanded:" + TreeNode.getNumOfNodesExpanded());
                 TileGUIPanels.printLog("Number Of Nodes Generated:" + TreeNode.getNumOfNodesGenerated());
+                TileGUIPanels.printLog("The best solution path sequence of moves:" + TreeNode.getMoveStepSequence());
                 return true;
             }
 
             addNewSuccessors(tempState.setSuccessors());
 
             if (this.queueList.size() == 0) {
-                // System.out.println("failed!");
-                TileGUIPanels.printLog("failed!");
+                TileGUIPanels.printLog("Unknow reason. Failed!");
                 return false;
             }
         }

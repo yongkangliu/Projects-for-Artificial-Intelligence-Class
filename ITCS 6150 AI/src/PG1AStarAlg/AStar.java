@@ -37,7 +37,7 @@ public class AStar {
 
         int count = 0;
         while (this.queueList.size() > 0) {
-            if (count++ > 10000) {
+            if (count++ > 20000) {
                 // System.out.println("the puzzle is too complex. failed!");
                 TileGUIPanels.printLog("The puzzle is too complex. Failed!");
                 return false;

@@ -25,7 +25,9 @@ public class TileButton extends JButton {
     }
 
     public void setTileButtonIcon(String name) {
-        if ("1".equals(name)) {
+        if ("0".equals(name)) {
+            setIcon(new ImageIcon(this.getClass().getResource("0.png")));
+        } else if ("1".equals(name)) {
             setIcon(new ImageIcon(this.getClass().getResource("1.png")));
         } else if ("2".equals(name)) {
             setIcon(new ImageIcon(this.getClass().getResource("2.png")));
@@ -41,8 +43,6 @@ public class TileButton extends JButton {
             setIcon(new ImageIcon(this.getClass().getResource("7.png")));
         } else if ("8".equals(name)) {
             setIcon(new ImageIcon(this.getClass().getResource("8.png")));
-        } else if ("0".equals(name)) {
-            setIcon(new ImageIcon(this.getClass().getResource("0.png")));
         }
     }
 }

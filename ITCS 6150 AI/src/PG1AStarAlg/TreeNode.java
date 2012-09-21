@@ -7,6 +7,7 @@ public class TreeNode {
     private static TreeNode rootNode;
     private static long numOfNodesGenerated = 0;
     private static long numOfNodesExpanded = 0;
+    private static long numOfStepsToGoal = 0;
 
     private State state;
 
@@ -22,6 +23,7 @@ public class TreeNode {
     public static void resetNumber() {
         TreeNode.numOfNodesExpanded = 0;
         TreeNode.numOfNodesGenerated = 0;
+        TreeNode.numOfStepsToGoal = 0;
     }
 
     public static void setRootNode(TreeNode node) {
@@ -29,11 +31,15 @@ public class TreeNode {
     }
 
     public static long getNumOfNodesGenerated() {
-        return TreeNode.numOfNodesGenerated;
+        return TreeNode.numOfNodesGenerated - 1;
     }
 
     public static long getNumOfNodesExpanded() {
         return TreeNode.numOfNodesExpanded;
+    }
+
+    public static long getNumOfStepsToGoal() {
+        return TreeNode.numOfStepsToGoal - 1;
     }
 
     public State getState() {
@@ -49,6 +55,7 @@ public class TreeNode {
         while (tempNode != null) {
             tempNode.printTreeNode();
             tempNode = tempNode.parent;
+            TreeNode.numOfStepsToGoal++;
         }
     }
 

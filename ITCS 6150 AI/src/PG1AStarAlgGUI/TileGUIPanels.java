@@ -1,3 +1,8 @@
+/*
+ * UNC Charlotte ITCS 6150 Intelligence System Class, Programming Homework
+ * 
+ * by Yongkang Liu, 9/21/2012
+ */
 package PG1AStarAlgGUI;
 
 import java.awt.BorderLayout;
@@ -14,6 +19,9 @@ import javax.swing.JTextArea;
 
 import PG1AStarAlg.AStar;
 
+/**
+ * Main class to run the application.
+ */
 public class TileGUIPanels extends JFrame {
 
     private static final long serialVersionUID = 8173460509781322855L;
@@ -33,17 +41,24 @@ public class TileGUIPanels extends JFrame {
     }
 
     public static void printLog(String str) {
-        TileGUIPanels.textArea.append(str);
-        TileGUIPanels.textArea.append("\r\n\r\n");
+        if (TileGUIPanels.textArea != null) {
+            TileGUIPanels.textArea.append(str);
+            TileGUIPanels.textArea.append("\r\n\r\n");
+        }
 
     }
 
-    public static void printLogReset(String str) {
-        TileGUIPanels.textArea.setText(str);
-        TileGUIPanels.textArea.append("\r\n");
-        TileGUIPanels.textArea.repaint();
+    public static void printResetLog(String str) {
+        if (TileGUIPanels.textArea != null) {
+            TileGUIPanels.textArea.setText(str);
+            TileGUIPanels.textArea.append("\r\n");
+            TileGUIPanels.textArea.repaint();
+        }
     }
 
+    /**
+     * Run A* algorithm in multi-thread mode to display the search progress in GUI.
+     */
     public TileGUIPanels() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("8 puzzle solver");

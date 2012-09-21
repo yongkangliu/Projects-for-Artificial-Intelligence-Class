@@ -1,3 +1,8 @@
+/*
+ * UNC Charlotte ITCS 6150 Intelligence System Class, Programming Homework
+ * 
+ * by Yongkang Liu, 9/21/2012
+ */
 package PG1AStarAlgGUI;
 
 import java.awt.Cursor;

@@ -1,9 +1,17 @@
+/*
+ * UNC Charlotte ITCS 6150 Intelligence System Class, Programming Homework
+ * 
+ * by Yongkang Liu, 9/21/2012
+ */
 package PG1AStarAlg;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**
+ * Unit Test cases for A* algorithm
+ */
 public class AStarTest {
 
     @Test

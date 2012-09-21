@@ -1,3 +1,8 @@
+/*
+ * UNC Charlotte ITCS 6150 Intelligence System Class, Programming Homework
+ * 
+ * by Yongkang Liu, 9/21/2012
+ */
 package PG1AStarAlgGUI;
 
 import java.awt.Dimension;
@@ -5,11 +10,11 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+/**
+ * The tile class
+ */
 public class TileButton extends JButton {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -9181977196699131202L;
 
     public TileButton(String name) {

@@ -19,6 +19,11 @@ public class TreeNode {
         TreeNode.numOfNodesGenerated++;
     }
 
+    public static void resetNumber() {
+        TreeNode.numOfNodesExpanded = 0;
+        TreeNode.numOfNodesGenerated = 0;
+    }
+
     public static void setRootNode(TreeNode node) {
         TreeNode.rootNode = node;
     }

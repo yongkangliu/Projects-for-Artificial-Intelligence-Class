@@ -13,8 +13,6 @@ public class AStar {
                 if (j == queueList.size()
                         || successors[i].getState().getFCost() <= queueList.get(j).getState().getFCost()) {
                     queueList.add(j, successors[i]);
-                    // System.out.println("** add new node, cost=" + successors[i].getState().getFCost() + " "
-                    // + Arrays.toString(successors[i].getState().getPuzzleDate()));
                     break;
                 }
             }
@@ -22,6 +20,7 @@ public class AStar {
     }
 
     public boolean run(int[] start, int[] goal) {
+        TreeNode.resetNumber();
         this.queueList = new ArrayList<TreeNode>();
         State rootState = new State(start, 0);
         TreeNode rootNode = new TreeNode(rootState, null);
@@ -32,10 +31,16 @@ public class AStar {
 
         this.queueList.add(rootNode);
 
+        int count = 0;
         while (this.queueList.size() > 0) {
+            if (count++ > 20000) {
+                System.out.println("the puzzle is too complex. failed!");
+                return false;
+            }
+            System.out.println(count);
             TreeNode tempState = this.queueList.get(0);
             this.queueList.remove(0);
-            //tempState.printTreeNode();
+            // tempState.printTreeNode();
 
             if (tempState.getState().isSameState(State.getGoalState())) {
                 System.out.println("Succeed!");
@@ -53,14 +58,5 @@ public class AStar {
             }
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        int[] start = new int[] { 5, 4, 0, 6, 1, 8, 7, 3, 2 };
-        int[] goal = new int[] { 1, 2, 3, 4, 0, 5, 6, 7, 8 };
-
-        AStar aStar = new AStar();
-
-        aStar.run(start, goal);
     }
 }

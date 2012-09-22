@@ -21,9 +21,9 @@ public class AStarTest {
 
         AStar aStar = new AStar();
 
-        boolean resule = aStar.run(start, goal);
+        boolean result = aStar.run(start, goal);
 
-        assertEquals(true, resule);
+        assertEquals(true, result);
     }
 
     @Test
@@ -33,9 +33,9 @@ public class AStarTest {
 
         AStar aStar = new AStar();
 
-        boolean resule = aStar.run(start, goal);
+        boolean result = aStar.run(start, goal);
 
-        assertEquals(true, resule);
+        assertEquals(true, result);
     }
 
     @Test
@@ -45,9 +45,9 @@ public class AStarTest {
 
         AStar aStar = new AStar();
 
-        boolean resule = aStar.run(start, goal);
+        boolean result = aStar.run(start, goal);
 
-        assertEquals(true, resule);
+        assertEquals(true, result);
     }
 
     @Test
@@ -57,8 +57,8 @@ public class AStarTest {
 
         AStar aStar = new AStar();
 
-        boolean resule = aStar.run(start, goal);
+        boolean result = aStar.run(start, goal);
 
-        assertEquals(true, resule);
+        assertEquals(true, result);
     }
 }

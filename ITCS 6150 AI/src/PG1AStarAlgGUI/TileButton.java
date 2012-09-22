@@ -19,9 +19,9 @@ public class TileButton extends JButton {
 
     public TileButton(String name) {
         setName(name);
-        setBackground(new java.awt.Color(255, 128, 0));
-        setPreferredSize(new java.awt.Dimension(50, 50));
-        setMaximumSize(new Dimension(50, 50));
+        setBackground(new java.awt.Color(199, 120, 252));
+        setPreferredSize(new java.awt.Dimension(48, 48));
+        setMaximumSize(new Dimension(48, 48));
 
         setTileButtonIcon(name);
 

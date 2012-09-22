@@ -56,7 +56,6 @@ public class AStar {
     public boolean run(int[] start, int[] goal) {
         // reset all counter variables.
         TreeNode.resetNumber();
-        TileGUIPanels.printResetLog("Running ...");
 
         // set the initial state
         this.queueList = new ArrayList<TreeNode>();
@@ -73,7 +72,7 @@ public class AStar {
         while (this.queueList.size() > 0) {
             // the main loop of A* algorithm.
 
-            if (count++ >= 10000) {
+            if (count++ >= 20000) {
                 // count loop steps. if the loop takes too long, return false and exit;
                 TileGUIPanels.printLog("The puzzle is too complex or unsolvable. Failed!");
                 TileGUIPanels.printLog("(Modify code to extend search time.)");

@@ -47,17 +47,34 @@ public class State {
         this.fCost = this.hCost + this.gCost;
     }
 
+    /**
+     * Calculate the heuristic function h cost.
+     * 
+     * @param goalState
+     *            the Goal state
+     * @return return the h cost.
+     */
     private int calculateHCost(State goalState) {
         int totalCost = 0;
         for (int i = 1; i <= 9; i++) {
             int currentPos = findNumberPosition(this.puzzleData, i % 9) + 1;
             int goalPos = findNumberPosition(goalState.puzzleData, i % 9) + 1;
-            totalCost = totalCost + Math.abs(goalPos - currentPos) / 3 + Math.abs(goalPos - currentPos) % 3;
+            int manhattanDistance = Math.abs(goalPos - currentPos) / 3 + Math.abs(goalPos - currentPos) % 3;
+            totalCost = totalCost + manhattanDistance;
         }
 
         return totalCost;
     }
 
+    /**
+     * Find the position of a specific number in the puzzle.
+     * 
+     * @param puzzleData
+     *            the puzzle data in 9-length array
+     * @param number
+     *            the specific number
+     * @return return the position
+     */
     private int findNumberPosition(int[] puzzleData, int number) {
         for (int i = 0; i < puzzleData.length; i++) {
             if (puzzleData[i] == number) {
@@ -67,6 +84,16 @@ public class State {
         return -1;
     }
 
+    /**
+     * Exchange values of two tiles.
+     * 
+     * @param puzzle
+     *            the puzzle data in 9-length array.
+     * @param a
+     *            one of the two tiles.
+     * @param b
+     *            another tile.
+     */
     private void exchangeValue(int[] puzzle, int a, int b) {
         int temp = puzzle[a];
         puzzle[a] = puzzle[b];

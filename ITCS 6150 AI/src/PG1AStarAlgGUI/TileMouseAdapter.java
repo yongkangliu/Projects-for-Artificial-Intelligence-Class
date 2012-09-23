@@ -9,6 +9,9 @@ import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * TileMouseAdapter class is for receiving mouse events.
+ */
 public class TileMouseAdapter extends MouseAdapter {
     private static TileButton mouseCurrentButton;
 

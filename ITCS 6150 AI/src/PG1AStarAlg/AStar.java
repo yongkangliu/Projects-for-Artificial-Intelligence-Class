@@ -98,6 +98,7 @@ public class AStar {
                 return false;
             }
         }
+        TileGUIPanels.printLog("Unknown reason. Failed!");
         return false;
     }
 }

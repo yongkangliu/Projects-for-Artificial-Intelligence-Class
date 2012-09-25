@@ -51,6 +51,7 @@ public class TreeNode {
         this.state = state;
         this.parent = parent;
         if (parent != null) {
+            // new node is generated.
             TreeNode.numOfNodesGenerated++;
         }
 
@@ -171,10 +172,12 @@ public class TreeNode {
      * @return return the successor array.
      */
     public TreeNode[] setSuccessors() {
+        // new node expanded.
         TreeNode.numOfNodesExpanded++;
 
         int[] successorDirections = this.state.getMoveDirections();
 
+        // create new successor for each available move direction.
         List<TreeNode> list = new ArrayList<TreeNode>();
         for (int i = 0; i < successorDirections.length; i++) {
             State tempState = this.state.moveToNextState(successorDirections[i]);

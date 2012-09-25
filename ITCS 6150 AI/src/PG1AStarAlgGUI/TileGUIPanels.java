@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,6 +51,12 @@ public class TileGUIPanels extends JFrame {
         tileGUI.setVisible(true);
     }
 
+    /**
+     * Print information in the EditText.
+     * 
+     * @param str
+     *            the information
+     */
     public static void printLog(String str) {
         if (TileGUIPanels.textArea != null) {
             TileGUIPanels.textArea.append(str);
@@ -57,6 +64,12 @@ public class TileGUIPanels extends JFrame {
         }
     }
 
+    /**
+     * Clean old information and print new information in the EditText.
+     * 
+     * @param str
+     *            the new information
+     */
     public static void printResetLog(String str) {
         if (TileGUIPanels.textArea != null) {
             TileGUIPanels.textArea.setText(str);
@@ -130,9 +143,14 @@ public class TileGUIPanels extends JFrame {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+
                         AStar aStar = new AStar();
 
+                        Calendar startTime = Calendar.getInstance();
                         aStar.run(TileGUIPanels.start, TileGUIPanels.goal);
+                        Calendar endTime = Calendar.getInstance();
+                        printLog("Time-consuming (seconds): "
+                                + (endTime.getTimeInMillis() - startTime.getTimeInMillis()) / 1000.0);
                     }
                 }).start();
             }

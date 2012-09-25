@@ -26,7 +26,6 @@ public class TileButton extends JButton {
         setTileButtonIcon(name);
 
         addMouseListener(new TileMouseAdapter());
-        addMouseMotionListener(null);
     }
 
     public void setTileButtonIcon(String name) {

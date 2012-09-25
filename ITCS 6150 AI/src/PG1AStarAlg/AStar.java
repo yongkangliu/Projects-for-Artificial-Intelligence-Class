@@ -22,13 +22,14 @@ public class AStar {
      * Add the successor nodes the queue order by f cost value.
      * 
      * @param successors
-     *            the
+     *            the successors array
      */
     private void addNewSuccessors(TreeNode[] successors) {
         for (int i = 0; i < successors.length; i++) {
             for (int j = 0; j <= queueList.size(); j++) {
                 if (j == queueList.size()
                         || successors[i].getState().getFCost() <= queueList.get(j).getState().getFCost()) {
+                    // smallest f cost is placed in the front of queue.
                     queueList.add(j, successors[i]);
                     break;
                 }
@@ -61,7 +62,6 @@ public class AStar {
         this.queueList = new ArrayList<TreeNode>();
         State rootState = new State(start, 0);
         TreeNode rootNode = new TreeNode(rootState, null);
-        TreeNode.setRootNode(rootNode);
         this.queueList.add(rootNode);
 
         // set the goal state
@@ -71,13 +71,7 @@ public class AStar {
         int count = 0;
         while (this.queueList.size() > 0) {
             // the main loop of A* algorithm.
-
-            if (count++ >= 20000) {
-                // count loop steps. if the loop takes too long, return false and exit;
-                TileGUIPanels.printLog("The puzzle is too complex or unsolvable. Failed!");
-                TileGUIPanels.printLog("(Modify code to extend search time.)");
-                return false;
-            }
+            count++;
 
             TileGUIPanels.printResetLog("Searching nodes:" + count);
 
@@ -99,7 +93,8 @@ public class AStar {
             addNewSuccessors(tempState.setSuccessors());
 
             if (this.queueList.size() == 0) {
-                TileGUIPanels.printLog("Unknow reason. Failed!");
+                // A* algorithem
+                TileGUIPanels.printLog("The puzzle is unsolvable. Failed!");
                 return false;
             }
         }

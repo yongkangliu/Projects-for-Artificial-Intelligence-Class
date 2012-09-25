@@ -6,15 +6,15 @@
 package PG1AStarAlg;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The node in the search tree of A* algorithm.
  */
 public class TreeNode {
-    // The root node of the search tree
-    private static TreeNode rootNode;
-
     // The number of nodes generated.
     private static long numOfNodesGenerated = 0;
 
@@ -26,6 +26,9 @@ public class TreeNode {
 
     // The sequence of the best solution path
     private static String moveStepSequence = null;
+
+    // The map stores all tree nodes. This is a hash map which increases search speed.
+    private static Map<String, String> map = new HashMap<String, String>();
 
     // Each node represents a state.
     private State state;
@@ -50,6 +53,10 @@ public class TreeNode {
         if (parent != null) {
             TreeNode.numOfNodesGenerated++;
         }
+
+        // Convert the puzzle date into a string. And store it in the map.
+        String key = Arrays.toString(state.getPuzzleDate());
+        map.put(key, key);
     }
 
     /**
@@ -59,16 +66,7 @@ public class TreeNode {
         TreeNode.numOfNodesExpanded = 0;
         TreeNode.numOfNodesGenerated = 0;
         TreeNode.numOfStepsToGoal = 0;
-    }
-
-    /**
-     * Set the root of search tree.
-     * 
-     * @param node
-     *            the root node.
-     */
-    public static void setRootNode(TreeNode node) {
-        TreeNode.rootNode = node;
+        TreeNode.map.clear();
     }
 
     /**
@@ -160,24 +158,11 @@ public class TreeNode {
      * @return return true if the state was visited, otherwise return false.
      */
     private boolean isStateVisited(State state) {
-        // use queue structure to search tree.
-        List<TreeNode> list = new ArrayList<TreeNode>();
-
-        list.add(rootNode);
-        while (!list.isEmpty()) {
-            TreeNode treeNode = list.get(0);
-            if (treeNode.getState().isSameState(state)) {// found the visited state
-                return true;
-            }
-            if (treeNode.successors.length > 0) {
-                for (int i = 0; i < treeNode.successors.length; i++) {
-                    list.add(treeNode.successors[i]);
-                }
-            }
-            list.remove(0);
+        if (TreeNode.map.containsKey(Arrays.toString(state.getPuzzleDate()))) {
+            return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     /**

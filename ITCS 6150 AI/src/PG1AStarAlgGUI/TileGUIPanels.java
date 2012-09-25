@@ -39,7 +39,10 @@ public class TileGUIPanels extends JFrame {
     // the goal state in the 9-length array
     private static int[] goal;
 
+    // store initial tiles
     public TileButton[] initTiles = new TileButton[TILE_NUMBER];
+
+    // store goal tiles
     public TileButton[] goalTiles = new TileButton[TILE_NUMBER];
 
     public static void main(String[] args) {
@@ -123,7 +126,7 @@ public class TileGUIPanels extends JFrame {
                     TileGUIPanels.goal[i] = Integer.valueOf(TileGUIPanels.tileGUIPanels.goalTiles[i].getName());
                 }
 
-                // start a new thread to run A* algorithm
+                // start a new thread to run A* algorithm, so the search progress can display on GUI.
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

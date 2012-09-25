@@ -94,7 +94,7 @@ public class AStar {
 
             if (this.queueList.size() == 0) {
                 // A* algorithem
-                TileGUIPanels.printLog("The puzzle is unsolvable. Failed!");
+                TileGUIPanels.printLog("All states are visited. The puzzle is unsolvable. Failed!");
                 return false;
             }
         }

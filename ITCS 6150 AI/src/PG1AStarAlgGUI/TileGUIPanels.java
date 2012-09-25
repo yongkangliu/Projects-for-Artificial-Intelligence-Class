@@ -124,6 +124,7 @@ public class TileGUIPanels extends JFrame {
         // initial text area
         printLog("Usage:\r\nDrag the tiles to set the puzzle initial and goal states.\r\nThen click RUN to solve the puzzle.");
         printLog("The result will display here.");
+        printLog("It takes about 1 minute to search all states with CPU 2.00 GHz.");
         printLog("-- Made by Yongkang Liu for UNCC ITCS 6150 class --");
 
         // add action listener to all tiles

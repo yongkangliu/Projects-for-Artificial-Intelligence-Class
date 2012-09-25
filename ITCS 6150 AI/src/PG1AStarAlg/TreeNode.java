@@ -152,7 +152,7 @@ public class TreeNode {
     }
 
     /**
-     * Search whole tree to check if the state was visited.
+     * Search all nodes in the map instance to check if the state was visited.
      * 
      * @param state
      *            the state

@@ -145,7 +145,7 @@ public class TreeNode {
         TreeNode.numOfStepsToGoal = list.size();
         String sequence = new String();
         for (int i = 0; i < list.size(); i++) {
-            sequence += list.get(i) + " -> ";
+            sequence += "move " + list.get(i) + " -> ";
         }
         sequence += "Goal";
         TreeNode.moveStepSequence = sequence;

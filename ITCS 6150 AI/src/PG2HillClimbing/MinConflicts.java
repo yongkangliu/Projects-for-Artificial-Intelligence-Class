@@ -64,10 +64,11 @@ public class MinConflicts {
     }
 
     public void run(int num) {
-        int i = 10000;
+        int numOfRestart = 0;
+        int totolNumOfChange = 0;
 
-        while (i-- > 0) {
-            int j = 0;
+        while (numOfRestart++ < 10000) {
+            int numOfChange = 0;
             int stuckTimes = 0;
             this.visitedList.clear();
             MinCQueenState qState = MinCQueenState.generateRandomQueen(num);
@@ -79,19 +80,23 @@ public class MinConflicts {
 
                 if (containState(stateStr)) {
                     if (++stuckTimes > num) {
-                        System.out.println("stuckTimes " + stuckTimes + " " + Arrays.toString(qState.getState()));
+                        // System.out.println("stuckTimes " + stuckTimes + " " + Arrays.toString(qState.getState()));
                         break;
                     }
                 } else {
                     addState(stateStr, num);
                     stuckTimes = 0;
-                    j++;
+                    numOfChange++;
+                    totolNumOfChange++;
                 }
-                
-                System.out.println("i=" + i + ", j=" + j + "  stuckTimes:" + stuckTimes);
+
+                // System.out.println("restart=" + numOfRestart + " total change:" + totolNumOfChange + " change="
+                // + numOfChange + "  stuckTimes:" + stuckTimes);
                 qState = newQState;
                 if (newQState.isConflictZero()) {
-                    System.out.println("succeed. j=" + j + " " + Arrays.toString(qState.getState()));
+                    System.out.println("restart=" + numOfRestart + " total change:" + totolNumOfChange + " change="
+                            + numOfChange);
+                    System.out.println("succeed. j=" + numOfChange + " " + Arrays.toString(qState.getState()));
                     return;
                 }
             }
@@ -99,10 +104,10 @@ public class MinConflicts {
     }
 
     public static void main(String[] args) {
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             Calendar startTime = Calendar.getInstance();
             MinConflicts mc = new MinConflicts();
-            mc.run(1000);
+            mc.run(30);
             Calendar endTime = Calendar.getInstance();
             System.out.println(i + "Time: " + (endTime.getTimeInMillis() - startTime.getTimeInMillis()) / 1000.0);
         }

@@ -45,10 +45,36 @@ public class MinCQueenState extends HillCQueenState {
             return this.columnMap.get(col);
         } else {
             int count = 0;
+            boolean hasHorizontalConflict = false;
+            boolean hasDiagonal1 = false;
+            boolean hasDiagonal2 = false;
+
             for (int j = 0; j < this.state.length; j++) {
                 if (col != j && isConflict(col, this.state[col], j, this.state[j])) {
-                    count++;
+                    int xDistance = col - j;
+                    int yDistance = this.state[col] - this.state[j];
+                    if (yDistance == 0) {
+                        hasHorizontalConflict = true;
+                    } else if ((xDistance * yDistance) > 0) {
+                        hasDiagonal1 = true;
+                    } else {
+                        hasDiagonal2 = true;
+                    }
+
+                    if (hasHorizontalConflict && hasDiagonal1 && hasDiagonal2) {
+                        break;
+                    }
                 }
+            }
+
+            if (hasHorizontalConflict == true) {
+                count++;
+            }
+            if (hasDiagonal1 == true) {
+                count++;
+            }
+            if (hasDiagonal2 == true) {
+                count++;
             }
             this.columnMap.put(col, count);
             return count;

@@ -6,11 +6,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 
-public class QueenButton extends JLabel {
+public class QueenLabel extends JLabel {
 
     private static final long serialVersionUID = 3368309132494005428L;
 
-    public QueenButton(String name) {
+    public QueenLabel(String name) {
         setName(name);
         
         setOpaque(true); 

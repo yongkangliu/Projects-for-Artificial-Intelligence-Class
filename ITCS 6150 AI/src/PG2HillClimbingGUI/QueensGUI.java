@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class QueensGUI extends JFrame {
 
     private static final long serialVersionUID = -7636271449210116618L;
-    private List<QueenButton> queensList = new ArrayList<QueenButton>();
+    private List<QueenLabel> queensList = new ArrayList<QueenLabel>();
 
     public static void main(String[] args) {
         QueensGUI queensGUI = new QueensGUI();
@@ -25,7 +25,7 @@ public class QueensGUI extends JFrame {
         JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayout(5, 5));
         for (int i = 0; i < 25; i++) {
-            QueenButton tile = new QueenButton(String.valueOf(i));
+            QueenLabel tile = new QueenLabel(String.valueOf(i));
             panel1.add(tile);
             this.queensList.add(tile);
         }

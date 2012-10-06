@@ -73,7 +73,6 @@ public class MinConflicts {
             MinCQueenState qState = MinCQueenState.generateRandomQueen(num);
 
             while (!qState.isConflictZero()) {
-
                 MinCQueenState newQState = this.getNextQueen(qState);
 
                 String stateStr = Arrays.toString(newQState.getState());
@@ -88,6 +87,7 @@ public class MinConflicts {
                     stuckTimes = 0;
                     j++;
                 }
+                
                 System.out.println("i=" + i + ", j=" + j + "  stuckTimes:" + stuckTimes);
                 qState = newQState;
                 if (newQState.isConflictZero()) {
@@ -102,7 +102,7 @@ public class MinConflicts {
         for (int i = 0; i < 1; i++) {
             Calendar startTime = Calendar.getInstance();
             MinConflicts mc = new MinConflicts();
-            mc.run(20);
+            mc.run(1000);
             Calendar endTime = Calendar.getInstance();
             System.out.println(i + "Time: " + (endTime.getTimeInMillis() - startTime.getTimeInMillis()) / 1000.0);
         }

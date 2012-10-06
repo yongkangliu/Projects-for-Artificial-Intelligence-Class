@@ -63,7 +63,7 @@ public class MinConflicts {
         }
     }
 
-    public void run(int num) {
+    public boolean run(int num) {
         int numOfRestart = 0;
         int totolNumOfChange = 0;
 
@@ -97,17 +97,18 @@ public class MinConflicts {
                     System.out.println("restart=" + numOfRestart + " total change:" + totolNumOfChange + " change="
                             + numOfChange);
                     System.out.println("succeed. j=" + numOfChange + " " + Arrays.toString(qState.getState()));
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
             Calendar startTime = Calendar.getInstance();
             MinConflicts mc = new MinConflicts();
-            mc.run(30);
+            mc.run(300);
             Calendar endTime = Calendar.getInstance();
             System.out.println(i + "Time: " + (endTime.getTimeInMillis() - startTime.getTimeInMillis()) / 1000.0);
         }

@@ -25,7 +25,7 @@ public class HillClimbing {
         return new HillCQueenState(newState);
     }
 
-    public void run(int num) {
+    public boolean run(int num) {
         int numOfRestart = 0;
         int totolNumOfChange = 0;
         while (numOfRestart++ < 10000) {
@@ -48,10 +48,11 @@ public class HillClimbing {
                     System.out.println("restart=" + numOfRestart + " total change:" + totolNumOfChange + " change="
                             + numOfChange);
                     System.out.println("suceed." + Arrays.toString(qState.getState()));
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public static void main(String[] args) {

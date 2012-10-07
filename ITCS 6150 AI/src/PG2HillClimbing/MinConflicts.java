@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import PG2HillClimbingGUI.QueensGUI;
+
 public class MinConflicts {
     private Random random = new Random();
 
@@ -90,13 +92,12 @@ public class MinConflicts {
                     totolNumOfChange++;
                 }
 
-                // System.out.println("restart=" + numOfRestart + " total change:" + totolNumOfChange + " change="
-                // + numOfChange + "  stuckTimes:" + stuckTimes);
+                QueensGUI.resetLog("Running ... \n\rRestart times=" + numOfRestart + "\n\rTotal changes="
+                        + totolNumOfChange + "\n\rChanges in current try=" + numOfChange + "\n\rStuck times:"
+                        + stuckTimes);
                 qState = newQState;
                 if (newQState.isConflictZero()) {
-                    System.out.println("restart=" + numOfRestart + " total change:" + totolNumOfChange + " change="
-                            + numOfChange);
-                    System.out.println("succeed. j=" + numOfChange + " " + Arrays.toString(qState.getState()));
+                    QueensGUI.appendLog("Succeed. The state data:" + Arrays.toString(qState.getState()));
                     return true;
                 }
             }

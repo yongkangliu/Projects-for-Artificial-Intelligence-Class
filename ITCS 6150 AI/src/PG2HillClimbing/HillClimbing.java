@@ -8,6 +8,8 @@ package PG2HillClimbing;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import PG2HillClimbingGUI.QueensGUI;
+
 public class HillClimbing {
     private HillCQueenState getNextQueen(HillCQueenState currentQueen) {
         int[] currentState = currentQueen.getState();
@@ -28,7 +30,7 @@ public class HillClimbing {
     public boolean run(int num) {
         int numOfRestart = 0;
         int totolNumOfChange = 0;
-        while (numOfRestart++ < 10000) {
+        while (numOfRestart++ < 1000) {
             int numOfChange = 0;
             HillCQueenState qState = HillCQueenState.generateRandomQueen(num);
             while (qState.getTotalNumOfConflict() != 0) {
@@ -42,12 +44,11 @@ public class HillClimbing {
                 }
                 qState = newQState;
 
-                // System.out.println("restart=" + numOfRestart + " total change:" + totolNumOfChange + " change="
-                // + numOfChange + " conflict=" + qState.getTotalNumOfConflict());
+                QueensGUI.resetLog("Running ... \n\rRestart times=" + numOfRestart + "\n\rTotal changes="
+                        + totolNumOfChange + "\n\rChanges in current try=" + numOfChange + "\n\rConflict="
+                        + qState.getTotalNumOfConflict());
                 if (newQState.getTotalNumOfConflict() == 0) {
-                    System.out.println("restart=" + numOfRestart + " total change:" + totolNumOfChange + " change="
-                            + numOfChange);
-                    System.out.println("suceed." + Arrays.toString(qState.getState()));
+                    QueensGUI.appendLog("Succeed. The state data:" + Arrays.toString(qState.getState()));
                     return true;
                 }
             }
@@ -59,7 +60,7 @@ public class HillClimbing {
         for (int i = 0; i < 10; i++) {
             Calendar startTime = Calendar.getInstance();
             HillClimbing hb = new HillClimbing();
-            hb.run(30);
+            hb.run(10);
             Calendar endTime = Calendar.getInstance();
             System.out.println(i + "Time: " + (endTime.getTimeInMillis() - startTime.getTimeInMillis()) / 1000.0);
         }

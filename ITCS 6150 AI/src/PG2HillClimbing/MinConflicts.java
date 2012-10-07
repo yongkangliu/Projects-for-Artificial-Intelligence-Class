@@ -64,7 +64,8 @@ public class MinConflicts {
         }
     }
 
-    public boolean run(int num) {
+    public int[] run(int num) {
+        QueensGUI.resetLog("Running ...");
         int numOfRestart = 0;
         int totolNumOfChange = 0;
 
@@ -94,13 +95,14 @@ public class MinConflicts {
                 QueensGUI.resetLog("Restart times=" + numOfRestart + "\n\rTotal changes=" + totolNumOfChange
                         + "\n\rChanges in current try=" + numOfChange + "\n\rStuck times:" + stuckTimes);
                 qState = newQState;
+                QueensGUI.drawQueens(qState.getState());
                 if (newQState.isConflictZero()) {
                     QueensGUI.appendLog("Succeed. The state data:" + Arrays.toString(qState.getState()));
-                    return true;
+                    return qState.getState();
                 }
             }
         }
         QueensGUI.appendLog("Unknown reason. Failed!");
-        return false;
+        return null;
     }
 }

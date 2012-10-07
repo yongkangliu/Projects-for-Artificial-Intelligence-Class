@@ -51,12 +51,12 @@ public class PG2HillClimbingTest {
     @Test
     public void testHillClimbingAlgorithm() {
         HillClimbing hc = new HillClimbing();
-        assertEquals(true, hc.run(15));
+        assertNotNull(hc.run(15));
     }
 
     @Test
     public void testMinConflictsAlgorithm() {
         MinConflicts mc = new MinConflicts();
-        assertEquals(true, mc.run(150));
+        assertNotNull(mc.run(150));
     }
 }

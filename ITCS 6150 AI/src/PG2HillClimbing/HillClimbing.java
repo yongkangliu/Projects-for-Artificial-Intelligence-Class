@@ -26,7 +26,8 @@ public class HillClimbing {
         return new HillCQueenState(newState);
     }
 
-    public boolean run(int num) {
+    public int[] run(int num) {
+        QueensGUI.resetLog("Running ...");
         int numOfRestart = 0;
         int totolNumOfChange = 0;
         while (numOfRestart++ < 1000) {
@@ -46,13 +47,15 @@ public class HillClimbing {
                 QueensGUI.resetLog("Restart times=" + numOfRestart + "\n\rTotal changes=" + totolNumOfChange
                         + "\n\rChanges in current try=" + numOfChange + "\n\rConflict="
                         + qState.getTotalNumOfConflict());
+
+                QueensGUI.drawQueens(qState.getState());
                 if (newQState.getTotalNumOfConflict() == 0) {
                     QueensGUI.appendLog("Succeed. The state data:" + Arrays.toString(qState.getState()));
-                    return true;
+                    return qState.getState();
                 }
             }
         }
         QueensGUI.appendLog("Unknown reason. Failed!");
-        return false;
+        return null;
     }
 }

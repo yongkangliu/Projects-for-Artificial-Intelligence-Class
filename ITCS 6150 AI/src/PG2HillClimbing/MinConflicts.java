@@ -64,22 +64,26 @@ public class MinConflicts {
         int[] currentState = currentQueen.getState();
         int[] newState = currentState;
 
-        int i = this.random.nextInt(currentState.length);
+        int x = this.random.nextInt(currentState.length);
 
-        for (int j = 0; j < currentState.length; j++) {
-            if (j == i) {
+        for (int y = 0; y < currentState.length; y++) {
+            // traversing y axis for next possiable states.
+
+            if (y == currentState[x]) {
+                // don't check the same state.
                 continue;
             }
+
             int[] tempState = Arrays.copyOf(currentState, currentState.length);
-            tempState[i] = j;
+            tempState[x] = y;
 
             MinCQueenState tempQueen = new MinCQueenState(tempState);
 
-            if (tempQueen.getColumnOfConflictNumber(i) < currentQueen.getColumnOfConflictNumber(i)) {
+            if (tempQueen.getColumnOfConflictNumber(x) < currentQueen.getColumnOfConflictNumber(x)) {
                 // if there is a better state, go to the new state.
                 newState = tempState;
-            } else if (tempQueen.getColumnOfConflictNumber(i) == currentQueen.getColumnOfConflictNumber(i)) {
-                if (tempQueen.getColumnOfConflictNumber(i) == 0 && this.random.nextBoolean()) {
+            } else if (tempQueen.getColumnOfConflictNumber(x) == currentQueen.getColumnOfConflictNumber(x)) {
+                if (tempQueen.getColumnOfConflictNumber(x) == 0 && this.random.nextBoolean()) {
                     // if there isn't better state and there are other zero conflict positions, go to the new state.
                     newState = tempState;
                 }
@@ -87,8 +91,10 @@ public class MinConflicts {
         }
 
         if (newState == currentState) {
+            // there isn't change, return the original state.
             return currentQueen;
         } else {
+            // there is a change, return a new state.
             return new MinCQueenState(newState);
         }
     }

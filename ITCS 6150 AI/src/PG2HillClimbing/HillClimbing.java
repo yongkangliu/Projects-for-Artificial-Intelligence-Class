@@ -6,7 +6,6 @@
 package PG2HillClimbing;
 
 import java.util.Arrays;
-import java.util.Calendar;
 
 import PG2HillClimbingGUI.QueensGUI;
 
@@ -44,8 +43,8 @@ public class HillClimbing {
                 }
                 qState = newQState;
 
-                QueensGUI.resetLog("Running ... \n\rRestart times=" + numOfRestart + "\n\rTotal changes="
-                        + totolNumOfChange + "\n\rChanges in current try=" + numOfChange + "\n\rConflict="
+                QueensGUI.resetLog("Restart times=" + numOfRestart + "\n\rTotal changes=" + totolNumOfChange
+                        + "\n\rChanges in current try=" + numOfChange + "\n\rConflict="
                         + qState.getTotalNumOfConflict());
                 if (newQState.getTotalNumOfConflict() == 0) {
                     QueensGUI.appendLog("Succeed. The state data:" + Arrays.toString(qState.getState()));
@@ -53,16 +52,7 @@ public class HillClimbing {
                 }
             }
         }
+        QueensGUI.appendLog("Unknown reason. Failed!");
         return false;
-    }
-
-    public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            Calendar startTime = Calendar.getInstance();
-            HillClimbing hb = new HillClimbing();
-            hb.run(10);
-            Calendar endTime = Calendar.getInstance();
-            System.out.println(i + "Time: " + (endTime.getTimeInMillis() - startTime.getTimeInMillis()) / 1000.0);
-        }
     }
 }

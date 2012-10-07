@@ -6,7 +6,6 @@
 package PG2HillClimbing;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -92,9 +91,8 @@ public class MinConflicts {
                     totolNumOfChange++;
                 }
 
-                QueensGUI.resetLog("Running ... \n\rRestart times=" + numOfRestart + "\n\rTotal changes="
-                        + totolNumOfChange + "\n\rChanges in current try=" + numOfChange + "\n\rStuck times:"
-                        + stuckTimes);
+                QueensGUI.resetLog("Restart times=" + numOfRestart + "\n\rTotal changes=" + totolNumOfChange
+                        + "\n\rChanges in current try=" + numOfChange + "\n\rStuck times:" + stuckTimes);
                 qState = newQState;
                 if (newQState.isConflictZero()) {
                     QueensGUI.appendLog("Succeed. The state data:" + Arrays.toString(qState.getState()));
@@ -102,16 +100,7 @@ public class MinConflicts {
                 }
             }
         }
+        QueensGUI.appendLog("Unknown reason. Failed!");
         return false;
-    }
-
-    public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            Calendar startTime = Calendar.getInstance();
-            MinConflicts mc = new MinConflicts();
-            mc.run(300);
-            Calendar endTime = Calendar.getInstance();
-            System.out.println(i + "Time: " + (endTime.getTimeInMillis() - startTime.getTimeInMillis()) / 1000.0);
-        }
     }
 }

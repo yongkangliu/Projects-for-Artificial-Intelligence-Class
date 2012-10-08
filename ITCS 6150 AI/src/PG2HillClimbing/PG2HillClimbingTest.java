@@ -13,6 +13,11 @@ import org.junit.Test;
  * Unit Test cases for refactoring code.
  */
 public class PG2HillClimbingTest {
+    @Test
+    public void testQueenState0() {
+        HillCQueenState q = new HillCQueenState(new int[] { 5, 0, 5, 7, 3, 2, 5, 1 });
+        assertEquals(9, q.getTotalNumOfConflict());
+    }
 
     @Test
     public void testQueenState1() {
@@ -49,6 +54,15 @@ public class PG2HillClimbingTest {
     }
 
     @Test
+    public void testQueenState6() {
+        MinCQueenState q = new MinCQueenState(new int[] { 5, 0, 5, 7, 3, 2, 5, 1 });
+        assertEquals(1, q.getColumnOfConflictNumber(0));
+        assertEquals(2, q.getColumnOfConflictNumber(2));
+        assertEquals(2, q.getColumnOfConflictNumber(4));
+        assertEquals(0, q.getColumnOfConflictNumber(7));
+    }
+
+    @Test
     public void testHillClimbingAlgorithm() {
         HillClimbing hc = new HillClimbing();
         assertNotNull(hc.run(15));
@@ -57,6 +71,6 @@ public class PG2HillClimbingTest {
     @Test
     public void testMinConflictsAlgorithm() {
         MinConflicts mc = new MinConflicts();
-        assertNotNull(mc.run(150));
+        assertNotNull(mc.run(50));
     }
 }

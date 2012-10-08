@@ -13,7 +13,7 @@ import java.util.Random;
 import PG2HillClimbingGUI.QueensGUI;
 
 /**
- * The Min-Conflicts algorithem class
+ * The Min-Conflicts algorithm class
  */
 public class MinConflicts {
     // The random instance.
@@ -67,7 +67,7 @@ public class MinConflicts {
         int x = this.random.nextInt(currentState.length);
 
         for (int y = 0; y < currentState.length; y++) {
-            // traversing y axis for next possiable states.
+            // traversing y axis for next possible states.
 
             if (y == currentState[x]) {
                 // don't check the same state.
@@ -100,7 +100,7 @@ public class MinConflicts {
     }
 
     /**
-     * The main function of Min-Conflicts algorithem.
+     * The main function of Min-Conflicts algorithm.
      * 
      * @param num
      *            The number of queens.

@@ -54,7 +54,7 @@ public class QueenLabel extends JLabel {
      */
     public void setColor(boolean isQueen) {
         if (isQueen) {
-            // if the block is a queen, fill yellow color with Q charactor.
+            // if the block is a queen, fill yellow color with Q character.
             setBackground(new java.awt.Color(255, 242, 0));
             setText("Q");
         } else {

@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * The state class of 8-queen problem for Min-Conflicts algorithem.<br>
+ * The state class of N queens problem for Min-Conflicts algorithm.<br>
  * Extends the HillCQueenState class.
  */
 public class MinCQueenState extends HillCQueenState {
@@ -138,19 +138,19 @@ public class MinCQueenState extends HillCQueenState {
     }
 
     /**
-     * Generate a random queen problem for Min-Conflicts algorithem.
+     * Generate a random queen problem for Min-Conflicts algorithm.
      * 
-     * @param num
+     * @param number
      *            The number of queens.
      * @return Return the state of the random problem.
      */
-    public static MinCQueenState generateRandomQueen(int num) {
-        int[] array = new int[num];
+    public static MinCQueenState generateRandomQueen(int number) {
+        int[] array = new int[number];
 
         Random r = new Random();
-        for (int i = 0; i < num; i++) {
-            // set a random position for a queen. The position range is from 0 to num.
-            array[i] = r.nextInt(num);
+        for (int i = 0; i < number; i++) {
+            // set a random position for a queen. The position range is from 0 to number.
+            array[i] = r.nextInt(number);
         }
 
         MinCQueenState qState = new MinCQueenState(array);

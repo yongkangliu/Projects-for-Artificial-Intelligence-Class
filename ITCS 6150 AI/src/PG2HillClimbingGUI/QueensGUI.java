@@ -37,7 +37,7 @@ public class QueensGUI extends JFrame {
     // the text field for the number of queens.
     private static JTextField numOfQueens;
 
-    // the hill climbing algorithem option.
+    // the hill climbing algorithm option.
     private static JRadioButton hillClimbing;
 
     // the text area for information.
@@ -50,7 +50,7 @@ public class QueensGUI extends JFrame {
     private static int[] states = new int[] {};
 
     /**
-     * The main fucntion.
+     * The main function.
      * 
      * @param args
      */
@@ -65,7 +65,7 @@ public class QueensGUI extends JFrame {
     public QueensGUI() {
         // Initialize the frame.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("8 Queens Solver");
+        setTitle("N-Queens Solver");
 
         // Initialize the options of algorithms.
         JPanel panel0 = new JPanel();
@@ -158,11 +158,14 @@ public class QueensGUI extends JFrame {
 
         // initialize the usage information.
         QueensGUI.textArea.append("-- Usage:\r\n");
-        QueensGUI.textArea.append("-- 1. Select algorithem: Hill Climbing algorithem or Min-Conflicts algorithem.\r\n");
+        QueensGUI.textArea.append("-- 1. Select algorithm: Hill Climbing algorithm or Min-Conflicts algorithm.\r\n");
+        QueensGUI.textArea.append("--      Hill Climbing algorithm solves 30 Queens problem in 10 seconds.\r\n");
+        QueensGUI.textArea.append("--      Min-Conflicts algorithm solves 200 Queens problem in 10 seconds.\r\n");
         QueensGUI.textArea
                 .append("-- 2. Input number of Queens. If number is larger than 100, Chessboard doesn't display.\r\n");
         QueensGUI.textArea.append("-- 3. Click the RUN botton to start.\r\n");
-        QueensGUI.textArea.append("-- 4. The result displays here. The yellow tile with Q character is the Queen.\r\n");
+        QueensGUI.textArea
+                .append("-- 4. The result displays here. The yellow blocks with Q character are the Queens.\r\n");
         QueensGUI.textArea.append("-- Made by Yongkang Liu for UNCC ITCS 6150 class --");
 
         pack();

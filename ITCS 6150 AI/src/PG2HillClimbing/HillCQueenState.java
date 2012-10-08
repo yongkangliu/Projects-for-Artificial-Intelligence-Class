@@ -8,11 +8,11 @@ package PG2HillClimbing;
 import java.util.Random;
 
 /**
- * The state class of 8-queen problem for Hill Climbing algorithem.
+ * The state class of N-queens problem for Hill Climbing algorithm.
  */
 public class HillCQueenState {
 
-    // The state data in an array. In the 8-queen problem,
+    // The state data in an array. In the N-queens problem,
     // x-axis is the suffix of the array and the range is from 0 to array length
     // y-axis is the value of the array element and the range is from 0 to array length.
     protected int[] state = new int[] {};
@@ -104,19 +104,19 @@ public class HillCQueenState {
     }
 
     /**
-     * Generate a random queen problem for Hill Climbing algorithem.
+     * Generate a random queen problem for Hill Climbing algorithm.
      * 
-     * @param num
+     * @param number
      *            The number of queens.
      * @return Return the state of the random problem.
      */
-    public static HillCQueenState generateRandomQueen(int num) {
-        int[] array = new int[num];
+    public static HillCQueenState generateRandomQueen(int number) {
+        int[] array = new int[number];
 
         Random r = new Random();
-        for (int x = 0; x < num; x++) {
-            // set a random position for a queen. The position range is from 0 to num.
-            array[x] = r.nextInt(num);
+        for (int x = 0; x < number; x++) {
+            // set a random position for a queen. The position range is from 0 to number.
+            array[x] = r.nextInt(number);
         }
 
         HillCQueenState queen = new HillCQueenState(array);

@@ -10,7 +10,7 @@ import java.util.Arrays;
 import PG2HillClimbingGUI.QueensGUI;
 
 /**
- * The Hill Climbing algorithem class
+ * The Hill Climbing algorithm class
  */
 public class HillClimbing {
 
@@ -44,7 +44,7 @@ public class HillClimbing {
     }
 
     /**
-     * The main function of Hill Climbing algorithem.
+     * The main function of Hill Climbing algorithm.
      * 
      * @param num
      *            The number of queens.

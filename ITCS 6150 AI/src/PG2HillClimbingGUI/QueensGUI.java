@@ -159,8 +159,8 @@ public class QueensGUI extends JFrame {
         // initialize the usage information.
         QueensGUI.textArea.append("-- Usage:\r\n");
         QueensGUI.textArea.append("-- 1. Select algorithm: Hill Climbing algorithm or Min-Conflicts algorithm.\r\n");
-        QueensGUI.textArea.append("--      Hill Climbing algorithm solves 30 Queens problem in 10 seconds.\r\n");
-        QueensGUI.textArea.append("--      Min-Conflicts algorithm solves 200 Queens problem in 10 seconds.\r\n");
+        QueensGUI.textArea.append("--      Hill Climbing algorithm solves 30 Queens problem in 10 seconds (CPU 2.00 GHz).\r\n");
+        QueensGUI.textArea.append("--      Min-Conflicts algorithm solves 200 Queens problem in 10 seconds (CPU 2.00 GHz).\r\n");
         QueensGUI.textArea
                 .append("-- 2. Input number of Queens. If number is larger than 100, Chessboard doesn't display.\r\n");
         QueensGUI.textArea.append("-- 3. Click the RUN botton to start.\r\n");

@@ -64,19 +64,34 @@ public class ScheduleState {
         }
 
         int iOldInterval = this.unitScheduleState[iUnit];
+
+        int unitLength = ScheduleState.unitIntervals[iUnit];
+
+        int[] oldNetReserves = new int[unitLength * 2];
+        for (int i = 0; i < unitLength; i++) {
+            oldNetReserves[i] = this.intervalNetReserves[iOldInterval + i];
+            oldNetReserves[i + unitLength] = this.intervalNetReserves[iNewInterval + i];
+        }
+
         this.unitScheduleState[iUnit] = iNewInterval;
 
-        int oldNetReserveA = this.intervalNetReserves[iOldInterval];
-        int oldNetReserveB = this.intervalNetReserves[iNewInterval];
+        int[] newNetReserves = new int[unitLength * 2];
+        for (int i = 0; i < unitLength; i++) {
+            newNetReserves[i] = this.countSingleNetReserve(iOldInterval + i);
+            newNetReserves[i + unitLength] = this.countSingleNetReserve(iNewInterval + i);
+        }
 
-        int newNetReserveA = this.countSingleNetReserve(iOldInterval);
-        int newNetReserveB = this.countSingleNetReserve(iNewInterval);
-        return isBetterMove(oldNetReserveA, oldNetReserveB, newNetReserveA, newNetReserveB);
+        return isBetterMove(oldNetReserves, newNetReserves);
     }
 
-    private boolean isBetterMove(int oldA, int oldB, int newA, int newB) {
-        int oldGap = Math.abs(oldA - oldB);
-        int newGap = Math.abs(newA - newB);
+    private boolean isBetterMove(int[] oldNetReserves, int[] newNetReserves) {
+        int unitLength = oldNetReserves.length / 2;
+        int oldGap = 0;
+        int newGap = 0;
+        for (int i = 0; i < unitLength; i++) {
+            oldGap += Math.abs(oldNetReserves[i] - oldNetReserves[i + unitLength]);
+            newGap += Math.abs(newNetReserves[i] - newNetReserves[i + unitLength]);
+        }
 
         if (newGap < oldGap) {
             this.countNetReserves();

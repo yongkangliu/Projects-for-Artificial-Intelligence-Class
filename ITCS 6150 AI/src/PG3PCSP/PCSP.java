@@ -46,12 +46,10 @@ public class PCSP {
             int[] tempState = Arrays.copyOf(currentState, currentState.length);
 
             ScheduleState tempSchedule = new ScheduleState(tempState, tempNetReserves);
-            // System.out.println("iUnit=" + iUnit + " i=" + i);
             boolean isBetterMove = tempSchedule.moveUnit(iUnit, i);
 
             if (isBetterMove) {
                 newScheduleState = tempSchedule;
-                // newScheduleState.countNetReserves();
             }
         }
 
@@ -87,7 +85,7 @@ public class PCSP {
         return null;
     }
 
-    public boolean run(int[] intervals, int[] capacities, int[] maxLoads) {
+    public ScheduleState run(int[] intervals, int[] capacities, int[] maxLoads) {
         ScheduleState.initialize(intervals, capacities, maxLoads, 0);
 
         ScheduleState state = ScheduleState.generateRandomState();
@@ -105,10 +103,9 @@ public class PCSP {
             ScheduleState finalState = search();
             if (finalState != null) {
                 System.out.println("****" + i + "  " + Arrays.toString(finalState.getIntervalNetReserves()));
-                return true;
+                return finalState;
             }
         }
-        return false;
+        return null;
     }
-
 }

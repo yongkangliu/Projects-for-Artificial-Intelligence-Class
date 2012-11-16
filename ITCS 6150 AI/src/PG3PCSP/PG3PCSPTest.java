@@ -66,4 +66,18 @@ public class PG3PCSPTest {
         assertNotNull(instance.run(new int[] { 2, 2, 1, 1, 1, 1, 1, 1 }, new int[] { 20, 15, 35, 40, 15, 15, 10, 30 },
                 new int[] { 80, 90, 65, 70 }));
     }
+
+    @Test
+    public void testState6() {
+        PCSP instance = new PCSP();
+        assertNull(instance.run(new int[] { 2, 2, 1, 1, 1, 1, 1 }, new int[] { 20, 15, 35, 40, 15, 15, 10 }, new int[] {
+                105, 115, 95, 105 }));
+    }
+
+    @Test
+    public void testState7() {
+        PCSP instance = new PCSP();
+        assertNotNull(instance.run(new int[] { 2, 2, 1, 1, 1, 1, 1, 2, 2, 3, 1 }, new int[] { 20, 15, 35, 40, 15, 15,
+                10, 20, 50, 30, 10 }, new int[] { 80, 90, 60, 70, 50, 40, 60 }));
+    }
 }

@@ -63,9 +63,9 @@ public class PCSP {
             int numOfMove = 0;
 
             ScheduleState state = ScheduleState.generateRandomState();
-            System.out.println("numOfRestart:" + numOfRestart + " numOfMove:" + numOfMove
-                    + Arrays.toString(state.getUnitScheduleState()) + "negtive number:"
-                    + state.getNumberOfNegtiveNetReserve());
+            // System.out.println("numOfRestart:" + numOfRestart + " numOfMove:" + numOfMove
+            // + Arrays.toString(state.getUnitScheduleState()) + "negtive number:"
+            // + state.getNumberOfNegtiveNetReserve());
             if (state.getNumberOfNegtiveNetReserve() == 0) {
                 return state;
             }
@@ -73,9 +73,9 @@ public class PCSP {
             while (numOfMove++ < 1000 && state.getNumberOfNegtiveNetReserve() != 0) {
                 state = gotoBetterState(state);
 
-                System.out.println("numOfRestart:" + numOfRestart + " numOfMove:" + numOfMove
-                        + Arrays.toString(state.getUnitScheduleState()) + "negtive number:"
-                        + state.getNumberOfNegtiveNetReserve());
+                // System.out.println("numOfRestart:" + numOfRestart + " numOfMove:" + numOfMove
+                // + Arrays.toString(state.getUnitScheduleState()) + "negtive number:"
+                // + state.getNumberOfNegtiveNetReserve());
                 if (state.getNumberOfNegtiveNetReserve() == 0) {
                     return state;
                 }
@@ -103,9 +103,11 @@ public class PCSP {
             ScheduleState finalState = search();
             if (finalState != null) {
                 System.out.println("****" + i + "  " + Arrays.toString(finalState.getIntervalNetReserves()));
+                System.out.println("****" + i + "  " + Arrays.toString(finalState.getUnitScheduleState()));
                 return finalState;
             }
         }
+        System.out.println("failed");
         return null;
     }
 }

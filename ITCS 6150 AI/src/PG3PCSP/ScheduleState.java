@@ -45,7 +45,11 @@ public class ScheduleState {
     }
 
     public int[] getIntervalNetReserves() {
-        return intervalNetReserves;
+        int[] result = new int[this.intervalNetReserves.length];
+        for (int i = 0; i < this.intervalNetReserves.length; i++) {
+            result[i] = this.intervalNetReserves[i] + ScheduleState.minNetReserve;
+        }
+        return result;
     }
 
     public int getNumberOfNegtiveNetReserve() {
@@ -145,6 +149,10 @@ public class ScheduleState {
 
     public static int getPossibleInterval(int unit) {
         return ScheduleState.intervalMaxLoads.length - (ScheduleState.unitIntervals[unit] - 1);
+    }
+
+    public static int[] getUnitIntervals() {
+        return ScheduleState.unitIntervals;
     }
 
 }

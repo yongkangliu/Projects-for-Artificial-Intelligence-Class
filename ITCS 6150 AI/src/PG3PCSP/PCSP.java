@@ -7,6 +7,16 @@ public class PCSP {
     // The random instance.
     private Random random = new Random();
 
+    private static PCSP instance = new PCSP();
+
+    private PCSP() {
+
+    }
+
+    public static PCSP getInstance() {
+        return PCSP.instance;
+    }
+
     private int calculateSpan(int[] number) {
         if (number.length == 0) {
             return -1;
@@ -102,12 +112,12 @@ public class PCSP {
             ScheduleState.initialize(intervals, capacities, maxLoads, i);
             ScheduleState finalState = search();
             if (finalState != null) {
-                System.out.println("****" + i + "  " + Arrays.toString(finalState.getIntervalNetReserves()));
-                System.out.println("****" + i + "  " + Arrays.toString(finalState.getUnitScheduleState()));
+                System.out.println("successful:" + i + "  " + Arrays.toString(finalState.getIntervalNetReserves()));
+                System.out.println("successful:" + i + "  " + Arrays.toString(finalState.getUnitScheduleState()));
                 return finalState;
             }
         }
-        System.out.println("failed");
+        System.out.println("failed.");
         return null;
     }
 }

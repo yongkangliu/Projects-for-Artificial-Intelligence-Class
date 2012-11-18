@@ -98,7 +98,7 @@ public class PCSP {
     }
 
     public ScheduleState run(int[] intervals, int[] capacities, int[] maxLoads) {
-        PCSPGUI.resetLog("Running ...");
+        PCSPGUI.resetLog("Starting ...");
         ScheduleState.initialize(intervals, capacities, maxLoads, 0);
 
         ScheduleState state = ScheduleState.generateRandomState();
@@ -118,8 +118,7 @@ public class PCSP {
                 PCSPGUI.appendLog("Searching ... having " + j + " pieces of " + i);
                 ScheduleState finalState = search(maxLoads.length - j);
                 if (finalState != null) {
-                    PCSPGUI.appendLog("Successful:" + i + "  Net Reserves:"
-                            + Arrays.toString(finalState.getIntervalNetReserves()) + "  Schedule States:"
+                    PCSPGUI.appendLog("Successful. Having " + j + " pieces of " + i + "  Schedule States:"
                             + Arrays.toString(finalState.getUnitScheduleState()));
                     return finalState;
                 }

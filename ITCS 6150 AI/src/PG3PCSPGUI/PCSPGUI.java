@@ -98,7 +98,7 @@ public class PCSPGUI extends JPanel {
                         PCSP instance = PCSP.getInstance();
                         ScheduleState state = instance.run(getIntervals(), getCapacities(), getMaxLoads());
                         if (state != null) {
-                            showIntervalNetReserves(state.getIntervalNetReserves());
+                            showIntervalNetReserves(ScheduleState.getMinNetReserve(), state.getIntervalNetReserves());
                             showUnitScheduleState(state.getUnitScheduleState(), ScheduleState.getUnitIntervals());
                         }
                         Calendar endTime = Calendar.getInstance();
@@ -158,14 +158,15 @@ public class PCSPGUI extends JPanel {
         return intervals;
     }
 
-    private void showIntervalNetReserves(int[] intervalNetReserves) {
+    private void showIntervalNetReserves(int minNetReserve, int[] intervalNetReserves) {
         int row = this.table.getRowCount();
         int col = this.table.getColumnCount();
 
         if ((col - 3) == intervalNetReserves.length) {
 
             for (int i = 0; i < intervalNetReserves.length; i++) {
-                this.table.getModel().setValueAt(String.valueOf(intervalNetReserves[i]), row - 1, i + 3);
+                this.table.getModel()
+                        .setValueAt(String.valueOf(intervalNetReserves[i] + minNetReserve), row - 1, i + 3);
             }
         }
     }
@@ -199,6 +200,7 @@ public class PCSPGUI extends JPanel {
         if (PCSPGUI.logTextArea != null) {
             PCSPGUI.logTextArea.append(str);
             PCSPGUI.logTextArea.append("\r\n");
+            PCSPGUI.logTextArea.setCaretPosition(logTextArea.getDocument().getLength()-1); 
         } else {
             System.out.println(str);
         }

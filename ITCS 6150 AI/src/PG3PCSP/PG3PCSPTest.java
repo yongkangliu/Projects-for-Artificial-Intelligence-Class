@@ -2,6 +2,8 @@ package PG3PCSP;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
 public class PG3PCSPTest {
@@ -36,6 +38,7 @@ public class PG3PCSPTest {
 
         ScheduleState state = new ScheduleState(new int[] { 0, 2, 3, 2, 0, 1, 3 }, null);
 
+        System.out.println(Arrays.toString(state.getIntervalNetReserves()));
         assertArrayEquals(new int[] { 35, 25, 30, 20 }, state.getIntervalNetReserves());
 
         state.moveUnit(4, 2);

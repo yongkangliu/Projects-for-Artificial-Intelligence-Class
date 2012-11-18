@@ -7,7 +7,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -33,6 +34,7 @@ public class PCSPGUI extends JPanel {
     private JTable table;
     private JTextField numOfUnitsEdit = new JTextField("7");
     private JTextField numOfIntervalsEdit = new JTextField("4");
+    private static JTextArea logTextArea;
 
     public PCSPGUI() {
         super(new BorderLayout());
@@ -67,11 +69,11 @@ public class PCSPGUI extends JPanel {
         this.setColumnWidth(this.table);
 
         // Create the scroll pane and add the table to it.
-        JScrollPane scrollPane = new JScrollPane(this.table);
-        scrollPane.getViewport().setBackground(BK_COLOR);
+        JScrollPane scrollPaneTable = new JScrollPane(this.table);
+        scrollPaneTable.getViewport().setBackground(BK_COLOR);
 
         // Add the scroll pane to this panel.
-        add(scrollPane, BorderLayout.CENTER);
+        add(scrollPaneTable, BorderLayout.CENTER);
 
         setButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -91,15 +93,27 @@ public class PCSPGUI extends JPanel {
                     @Override
                     public void run() {
                         resetPanel();
+                        Calendar startTime = Calendar.getInstance();
 
                         PCSP instance = PCSP.getInstance();
                         ScheduleState state = instance.run(getIntervals(), getCapacities(), getMaxLoads());
-                        showIntervalNetReserves(state.getIntervalNetReserves());
-                        showUnitScheduleState(state.getUnitScheduleState(), ScheduleState.getUnitIntervals());
+                        if (state != null) {
+                            showIntervalNetReserves(state.getIntervalNetReserves());
+                            showUnitScheduleState(state.getUnitScheduleState(), ScheduleState.getUnitIntervals());
+                        }
+                        Calendar endTime = Calendar.getInstance();
+                        PCSPGUI.appendLog("Time-consuming (seconds): "
+                                + (endTime.getTimeInMillis() - startTime.getTimeInMillis()) / 1000.0);
                     }
                 }).start();
             }
         });
+
+        // add log area on SOUTH
+        PCSPGUI.logTextArea = new JTextArea(5, 5);
+        PCSPGUI.logTextArea.setLineWrap(true);
+        JScrollPane scrollPaneLog = new JScrollPane(PCSPGUI.logTextArea);
+        add(scrollPaneLog, BorderLayout.SOUTH);
     }
 
     private void setColumnWidth(JTable t) {
@@ -120,7 +134,7 @@ public class PCSPGUI extends JPanel {
         for (int i = 3; i < col; i++) {
             maxLoads[i - 3] = Integer.valueOf((String) this.table.getModel().getValueAt(1, i));
         }
-        System.out.println(Arrays.toString(maxLoads));
+
         return maxLoads;
     }
 
@@ -130,7 +144,7 @@ public class PCSPGUI extends JPanel {
         for (int i = 3; i < row - 1; i++) {
             capacities[i - 3] = Integer.valueOf((String) this.table.getModel().getValueAt(i, 1));
         }
-        System.out.println(Arrays.toString(capacities));
+
         return capacities;
     }
 
@@ -140,15 +154,19 @@ public class PCSPGUI extends JPanel {
         for (int i = 3; i < row - 1; i++) {
             intervals[i - 3] = Integer.valueOf((String) this.table.getModel().getValueAt(i, 2));
         }
-        System.out.println(Arrays.toString(intervals));
+
         return intervals;
     }
 
     private void showIntervalNetReserves(int[] intervalNetReserves) {
         int row = this.table.getRowCount();
+        int col = this.table.getColumnCount();
 
-        for (int i = 0; i < intervalNetReserves.length; i++) {
-            this.table.getModel().setValueAt(String.valueOf(intervalNetReserves[i]), row - 1, i + 3);
+        if ((col - 3) == intervalNetReserves.length) {
+
+            for (int i = 0; i < intervalNetReserves.length; i++) {
+                this.table.getModel().setValueAt(String.valueOf(intervalNetReserves[i]), row - 1, i + 3);
+            }
         }
     }
 
@@ -164,10 +182,41 @@ public class PCSPGUI extends JPanel {
         int col = this.table.getColumnCount();
         int row = this.table.getRowCount();
 
-        for (int i = 3; i < row - 1; i++) {
+        for (int i = 3; i < row; i++) {
             for (int j = 3; j < col; j++) {
                 this.table.getModel().setValueAt("", i, j);
             }
+        }
+    }
+
+    /**
+     * Append information in the EditText.
+     * 
+     * @param str
+     *            the information
+     */
+    public static void appendLog(String str) {
+        if (PCSPGUI.logTextArea != null) {
+            PCSPGUI.logTextArea.append(str);
+            PCSPGUI.logTextArea.append("\r\n");
+        } else {
+            System.out.println(str);
+        }
+    }
+
+    /**
+     * Clean old information and print new information in the EditText.
+     * 
+     * @param str
+     *            the new information
+     */
+    public static void resetLog(String str) {
+        if (PCSPGUI.logTextArea != null) {
+            PCSPGUI.logTextArea.setText(str);
+            PCSPGUI.logTextArea.append("\r\n");
+            PCSPGUI.logTextArea.repaint();
+        } else {
+            System.out.println(str);
         }
     }
 
@@ -237,4 +286,5 @@ public class PCSPGUI extends JPanel {
             return c;
         }
     };
+
 }

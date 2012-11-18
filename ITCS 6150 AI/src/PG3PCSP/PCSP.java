@@ -3,6 +3,8 @@ package PG3PCSP;
 import java.util.Arrays;
 import java.util.Random;
 
+import PG3PCSPGUI.PCSPGUI;
+
 public class PCSP {
     // The random instance.
     private Random random = new Random();
@@ -66,7 +68,7 @@ public class PCSP {
         return newScheduleState;
     }
 
-    private ScheduleState search() {
+    private ScheduleState search(int numOfIntervals) {
         int numOfRestart = 0;
 
         while (numOfRestart++ < 1000) {
@@ -76,17 +78,17 @@ public class PCSP {
             // System.out.println("numOfRestart:" + numOfRestart + " numOfMove:" + numOfMove
             // + Arrays.toString(state.getUnitScheduleState()) + "negtive number:"
             // + state.getNumberOfNegtiveNetReserve());
-            if (state.getNumberOfNegtiveNetReserve() == 0) {
+            if (state.getNumberOfNegtiveNetReserve() >= numOfIntervals) {
                 return state;
             }
 
-            while (numOfMove++ < 1000 && state.getNumberOfNegtiveNetReserve() != 0) {
+            while (numOfMove++ < 1000 && state.getNumberOfNegtiveNetReserve() < 0) {
                 state = gotoBetterState(state);
 
                 // System.out.println("numOfRestart:" + numOfRestart + " numOfMove:" + numOfMove
                 // + Arrays.toString(state.getUnitScheduleState()) + "negtive number:"
                 // + state.getNumberOfNegtiveNetReserve());
-                if (state.getNumberOfNegtiveNetReserve() == 0) {
+                if (state.getNumberOfNegtiveNetReserve() >= numOfIntervals) {
                     return state;
                 }
             }
@@ -96,6 +98,7 @@ public class PCSP {
     }
 
     public ScheduleState run(int[] intervals, int[] capacities, int[] maxLoads) {
+        PCSPGUI.resetLog("Running ...");
         ScheduleState.initialize(intervals, capacities, maxLoads, 0);
 
         ScheduleState state = ScheduleState.generateRandomState();
@@ -110,14 +113,19 @@ public class PCSP {
 
         for (int i = initialNumber; i >= 0; i -= span) {
             ScheduleState.initialize(intervals, capacities, maxLoads, i);
-            ScheduleState finalState = search();
-            if (finalState != null) {
-                System.out.println("successful:" + i + "  " + Arrays.toString(finalState.getIntervalNetReserves()));
-                System.out.println("successful:" + i + "  " + Arrays.toString(finalState.getUnitScheduleState()));
-                return finalState;
+
+            for (int j = 0; j < maxLoads.length; j++) {
+                PCSPGUI.appendLog("Searching ... having " + j + " pieces of " + i);
+                ScheduleState finalState = search(maxLoads.length - j);
+                if (finalState != null) {
+                    PCSPGUI.appendLog("Successful:" + i + "  Net Reserves:"
+                            + Arrays.toString(finalState.getIntervalNetReserves()) + "  Schedule States:"
+                            + Arrays.toString(finalState.getUnitScheduleState()));
+                    return finalState;
+                }
             }
         }
-        System.out.println("failed.");
+        PCSPGUI.appendLog("Failed.");
         return null;
     }
 }

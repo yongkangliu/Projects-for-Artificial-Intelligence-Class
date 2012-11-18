@@ -12,7 +12,8 @@ public class ScheduleState {
 
     private int[] unitScheduleState = new int[] {};
     private int[] intervalNetReserves = new int[] {};
-    private int numberOfNegtiveNetReserve = 0;
+
+    // private int numberOfNegtiveNetReserve = 0;
 
     public ScheduleState(int[] scheduleState, int[] netReserves) {
         this.unitScheduleState = scheduleState;
@@ -53,13 +54,15 @@ public class ScheduleState {
     }
 
     public int getNumberOfNegtiveNetReserve() {
-        this.numberOfNegtiveNetReserve = 0;
+        int count = 0;
         for (int i = 0; i < this.intervalNetReserves.length; i++) {
             if (this.intervalNetReserves[i] < 0) {
-                this.numberOfNegtiveNetReserve++;
+                return -1;
+            } else if (this.intervalNetReserves[i] > 0) {
+                count++;
             }
         }
-        return this.numberOfNegtiveNetReserve;
+        return count;
     }
 
     public boolean moveUnit(int iUnit, int iNewInterval) {

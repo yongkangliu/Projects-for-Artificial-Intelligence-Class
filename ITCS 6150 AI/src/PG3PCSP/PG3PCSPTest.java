@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class PG3PCSPTest {
-
+    
     @Test
     public void testState1() {
         ScheduleState.initialize(new int[] { 2, 2, 1, 1, 1, 1, 1 }, new int[] { 20, 15, 35, 40, 15, 15, 10 },
@@ -79,5 +79,12 @@ public class PG3PCSPTest {
         PCSP instance = PCSP.getInstance();
         assertNotNull(instance.run(new int[] { 2, 2, 1, 1, 1, 1, 1, 2, 2, 3, 1 }, new int[] { 20, 15, 35, 40, 15, 15,
                 10, 20, 50, 30, 10 }, new int[] { 80, 90, 60, 70, 50, 40, 60 }));
+    }
+
+    @Test
+    public void testState8() {
+        PCSP instance = PCSP.getInstance();
+        assertNotNull(instance.run(new int[] { 2, 2, 1, 1, 1, 1, 1 }, new int[] { 20, 15, 35, 40, 15, 15, 10 },
+                new int[] { 80, 90, 65, 100 }));
     }
 }

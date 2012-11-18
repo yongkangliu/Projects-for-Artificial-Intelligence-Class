@@ -29,10 +29,13 @@ public class ScheduleTableModel extends AbstractTableModel {
 
         for (int i = 3; i < this.data[0].length; i++) {
             this.data[0][i] = i - 2;
+            this.data[1][i] = "80";
         }
 
         for (int i = 3; i < this.data.length - 1; i++) {
             this.data[i][0] = i - 2;
+            this.data[i][1] = "20";
+            this.data[i][2] = "2";
         }
 
         if (this.data.length > 10 && columnNames.length > 3) {

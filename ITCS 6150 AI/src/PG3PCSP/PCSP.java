@@ -114,8 +114,20 @@ public class PCSP {
         for (int i = initialNumber; i >= 0; i -= span) {
             ScheduleState.initialize(intervals, capacities, maxLoads, i);
 
+            boolean testFlag = false;
             for (int j = 0; j < maxLoads.length; j++) {
-                PCSPGUI.appendLog("Searching ... having " + j + " pieces of " + i);
+                PCSPGUI.appendLog("Searching ... " + j + " pieces of " + i);
+
+                if (!testFlag) {
+                    ScheduleState testState = search(0);
+                    if (testState != null) {
+                        testFlag = true;
+                        PCSPGUI.appendLog("Searching ... " + j + " pieces of " + i + " in detail.");
+                    } else {
+                        break;
+                    }
+                }
+
                 ScheduleState finalState = search(maxLoads.length - j);
                 if (finalState != null) {
                     PCSPGUI.appendLog("Successful. Having " + j + " pieces of " + i + "  Schedule States:"
@@ -124,7 +136,7 @@ public class PCSP {
                 }
             }
         }
-        PCSPGUI.appendLog("Failed.");
+        PCSPGUI.appendLog("Can't find solution. Failed.");
         return null;
     }
 }

@@ -7,7 +7,7 @@ import PG3PCSPGUI.PCSPGUI;
 
 public class PCSP {
     // The random instance.
-    private Random random = new Random();
+    private Random r = new Random();
 
     private static PCSP instance = new PCSP();
 
@@ -20,9 +20,7 @@ public class PCSP {
     }
 
     public ScheduleState gotoBetterState(ScheduleState current) {
-        ScheduleState newScheduleState = current;
-
-        int iUnit = this.random.nextInt(current.getUnitScheduleState().length);
+        int iUnit = this.r.nextInt(current.getUnitScheduleState().length);
 
         for (int i = 0; i < ScheduleState.getPossibleInterval(iUnit); i++) {
             // traversing all intervals for next possible state.
@@ -32,8 +30,8 @@ public class PCSP {
                 continue;
             }
 
-            int[] currentState = newScheduleState.getUnitScheduleState();
-            int[] currentNetReserves = newScheduleState.getIntervalNetReserves();
+            int[] currentState = current.getUnitScheduleState();
+            int[] currentNetReserves = current.getIntervalNetReserves();
 
             int[] tempNetReserves = Arrays.copyOf(currentNetReserves, currentNetReserves.length);
             int[] tempState = Arrays.copyOf(currentState, currentState.length);
@@ -42,11 +40,10 @@ public class PCSP {
             boolean isBetterMove = tempSchedule.moveUnit(iUnit, i);
 
             if (isBetterMove) {
-                newScheduleState = tempSchedule;
+                return tempSchedule;
             }
         }
-
-        return newScheduleState;
+        return current;
     }
 
     private ScheduleState search(int numOfIntervals, int restartTimes) {

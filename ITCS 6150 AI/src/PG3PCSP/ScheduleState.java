@@ -104,9 +104,15 @@ public class ScheduleState {
     }
 
     private boolean isBetterMove(int[] oldNetReserves, int[] newNetReserves) {
-        StandardDeviation oldGap = new StandardDeviation(oldNetReserves);
-        StandardDeviation newGap = new StandardDeviation(newNetReserves);
-        if (newGap.getStdDev() < oldGap.getStdDev()) {
+        int unitLength = oldNetReserves.length / 2;
+        int oldGap = 0;
+        int newGap = 0;
+        for (int i = 0; i < unitLength; i++) {
+            oldGap += Math.abs(oldNetReserves[i] - oldNetReserves[i + unitLength]);
+            newGap += Math.abs(newNetReserves[i] - newNetReserves[i + unitLength]);
+        }
+
+        if (newGap < oldGap) {
             return true;
         } else {
             return false;

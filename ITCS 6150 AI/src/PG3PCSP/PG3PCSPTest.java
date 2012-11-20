@@ -63,8 +63,19 @@ public class PG3PCSPTest {
                 new int[] { 80, 90, 65, 70 }, 1000));
     }
 
+    // @Test
+    public void testState5a() {
+        PCSP instance = PCSP.getInstance();
+        int i = 0;
+        while (i++ < 100) {
+            ScheduleState state = instance.run(new int[] { 2, 2, 1, 1, 1, 1, 1, 1, 1, 1 }, new int[] { 20, 15, 35, 40,
+                    15, 15, 10, 15, 15, 15 }, new int[] { 110, 90, 65, 70, 80, 80, 80, 75 }, 1000);
+            assertArrayEquals(new int[] { 85, 85, 85, 85, 85, 85, 85, 85 }, state.getIntervalNetReserves());
+        }
+    }
+
     @Test
-    public void testState5() {
+    public void testState5b() {
         PCSP instance = PCSP.getInstance();
         int i = 0;
         while (i++ < 100) {

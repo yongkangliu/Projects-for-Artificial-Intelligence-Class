@@ -9,12 +9,11 @@ public class ScheduleState {
     private static int[] unitCapacities = new int[] {};
     private static int[] unitIntervals = new int[] {};
     private static int[] intervalMaxLoads = new int[] {};
-    private static int minNetReserve = 0;
+
+    private static Random r = new Random();
 
     private int[] unitScheduleState = new int[] {};
     private int[] intervalNetReserves = new int[] {};
-
-    // private int numberOfNegtiveNetReserve = 0;
 
     public ScheduleState(int[] scheduleState, int[] netReserves) {
         this.unitScheduleState = scheduleState;
@@ -30,11 +29,10 @@ public class ScheduleState {
         System.out.println(a + Arrays.toString(this.unitScheduleState) + Arrays.toString(this.intervalNetReserves));
     }
 
-    public static void initialize(int[] intervals, int[] capacities, int[] maxLoads, int minNetReserve) {
+    public static void initialize(int[] intervals, int[] capacities, int[] maxLoads) {
         ScheduleState.unitIntervals = intervals;
         ScheduleState.unitCapacities = capacities;
         ScheduleState.intervalMaxLoads = maxLoads;
-        ScheduleState.minNetReserve = minNetReserve;
 
         ScheduleState.totalCapacity = 0;
         for (int i = 0; i < capacities.length; i++) {
@@ -52,6 +50,11 @@ public class ScheduleState {
 
     public int[] getIntervalNetReserves() {
         return this.intervalNetReserves;
+    }
+
+    public double getStdDev() {
+        StandardDeviation count = new StandardDeviation(this.intervalNetReserves);
+        return count.getStdDev();
     }
 
     public int getNumberOfNegtiveNetReserve() {
@@ -86,8 +89,6 @@ public class ScheduleState {
 
         int[] newNetReserves = new int[unitLength * 2];
         for (int i = 0; i < unitLength; i++) {
-            // newNetReserves[i] = this.countSingleNetReserve(iOldInterval + i);
-            // newNetReserves[i + unitLength] = this.countSingleNetReserve(iNewInterval + i);
             newNetReserves[i] = this.intervalNetReserves[iOldInterval + i];
             newNetReserves[i + unitLength] = this.intervalNetReserves[iNewInterval + i];
         }
@@ -103,51 +104,18 @@ public class ScheduleState {
     }
 
     private boolean isBetterMove(int[] oldNetReserves, int[] newNetReserves) {
-        int unitLength = oldNetReserves.length / 2;
-        int oldGap = 0;
-        int newGap = 0;
-        for (int i = 0; i < unitLength; i++) {
-            oldGap += Math.abs(oldNetReserves[i] - oldNetReserves[i + unitLength]);
-            newGap += Math.abs(newNetReserves[i] - newNetReserves[i + unitLength]);
-        }
-
-        if (newGap < oldGap) {
-            // this.countNetReserves();
+        StandardDeviation oldGap = new StandardDeviation(oldNetReserves);
+        StandardDeviation newGap = new StandardDeviation(newNetReserves);
+        if (newGap.getStdDev() < oldGap.getStdDev()) {
             return true;
         } else {
             return false;
         }
     }
 
-    //
-    // private int countSingleNetReserve(int interval) {
-    // int netReserves = ScheduleState.totalCapacity - ScheduleState.intervalMaxLoads[interval]
-    // - ScheduleState.minNetReserve;
-    //
-    // for (int j = 0; j < this.unitScheduleState.length; j++) {
-    // int lowBound = this.unitScheduleState[j];
-    // int highBound = this.unitScheduleState[j] + (ScheduleState.unitIntervals[j] - 1);
-    // if (lowBound <= interval && interval <= highBound) {
-    // netReserves -= ScheduleState.unitCapacities[j];
-    // }
-    // }
-    //
-    // this.intervalNetReserves[interval] = netReserves;
-    // return netReserves;
-    // }
-
-    // private int[] countNetReserves_old() {
-    // for (int i = 0; i < this.intervalNetReserves.length; i++) {
-    // countSingleNetReserve(i);
-    // }
-    //
-    // return this.intervalNetReserves;
-    // }
-
     private void countNetReserves() {
         for (int i = 0; i < this.intervalNetReserves.length; i++) {
-            this.intervalNetReserves[i] = ScheduleState.totalCapacity - ScheduleState.intervalMaxLoads[i]
-                    - ScheduleState.minNetReserve;
+            this.intervalNetReserves[i] = ScheduleState.totalCapacity - ScheduleState.intervalMaxLoads[i];
         }
 
         for (int i = 0; i < this.unitScheduleState.length; i++) {
@@ -163,7 +131,6 @@ public class ScheduleState {
             return null;
         }
 
-        Random r = new Random();
         int numberOfUnits = ScheduleState.unitIntervals.length;
 
         int[] scheduleState = new int[numberOfUnits];
@@ -182,9 +149,4 @@ public class ScheduleState {
     public static int[] getUnitIntervals() {
         return ScheduleState.unitIntervals;
     }
-
-    public static int getMinNetReserve() {
-        return minNetReserve;
-    }
-
 }

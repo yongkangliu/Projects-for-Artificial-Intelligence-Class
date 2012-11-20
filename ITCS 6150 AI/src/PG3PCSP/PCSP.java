@@ -19,25 +19,6 @@ public class PCSP {
         return PCSP.instance;
     }
 
-    private int calculateSpan(int[] number) {
-        if (number.length == 0) {
-            return -1;
-        }
-
-        int span = Math.abs(number[0] - number[1]);
-        for (int i = 0; i < number.length; i++) {
-            for (int j = i + 1; j < number.length; j++) {
-                if (number[i] != number[j]) {
-                    int temp = Math.abs(number[i] - number[j]);
-                    if (temp < span) {
-                        span = temp;
-                    }
-                }
-            }
-        }
-        return span;
-    }
-
     public ScheduleState gotoBetterState(ScheduleState current) {
         ScheduleState newScheduleState = current;
 
@@ -68,75 +49,70 @@ public class PCSP {
         return newScheduleState;
     }
 
-    private ScheduleState search(int numOfIntervals) {
+    private ScheduleState search(int numOfIntervals, int restartTimes) {
         int numOfRestart = 0;
+        ScheduleState result = null;
 
-        while (numOfRestart++ < 1000) {
+        while (numOfRestart++ < restartTimes) {
+            PCSPGUI.showProgress(numOfRestart);
             int numOfMove = 0;
 
             ScheduleState state = ScheduleState.generateRandomState();
-            // System.out.println("numOfRestart:" + numOfRestart + " numOfMove:" + numOfMove
-            // + Arrays.toString(state.getUnitScheduleState()) + "negtive number:"
-            // + state.getNumberOfNegtiveNetReserve());
-            if (state.getNumberOfNegtiveNetReserve() >= numOfIntervals) {
-                return state;
-            }
 
-            while (numOfMove++ < 1000 && state.getNumberOfNegtiveNetReserve() < 0) {
-                state = gotoBetterState(state);
-
-                // System.out.println("numOfRestart:" + numOfRestart + " numOfMove:" + numOfMove
-                // + Arrays.toString(state.getUnitScheduleState()) + "negtive number:"
-                // + state.getNumberOfNegtiveNetReserve());
-                if (state.getNumberOfNegtiveNetReserve() >= numOfIntervals) {
-                    return state;
+            while (numOfMove++ < restartTimes) {
+                ScheduleState tempState = gotoBetterState(state);
+                boolean sameState = false;
+                if (state == tempState) {
+                    sameState = true;
+                } else {
+                    state = tempState;
                 }
-            }
-        }
 
-        return null;
-    }
-
-    public ScheduleState run(int[] intervals, int[] capacities, int[] maxLoads) {
-        PCSPGUI.resetLog("Starting ...");
-        ScheduleState.initialize(intervals, capacities, maxLoads, 0);
-
-        ScheduleState state = ScheduleState.generateRandomState();
-        int[] intervalNetReserves = state.getIntervalNetReserves();
-        int sumOfNetReserves = 0;
-        for (int i = 0; i < intervalNetReserves.length; i++) {
-            sumOfNetReserves += intervalNetReserves[i];
-        }
-
-        int span = this.calculateSpan(capacities);
-        int initialNumber = ((sumOfNetReserves / maxLoads.length) / span) * span;
-
-        for (int i = initialNumber; i >= 0; i -= span) {
-            ScheduleState.initialize(intervals, capacities, maxLoads, i);
-
-            boolean testFlag = false;
-            for (int j = 0; j < maxLoads.length; j++) {
-                PCSPGUI.appendLog("Searching ... " + j + " pieces of " + i);
-
-                if (!testFlag) {
-                    ScheduleState testState = search(0);
-                    if (testState != null) {
-                        testFlag = true;
-                        PCSPGUI.appendLog("Searching ... " + j + " pieces of " + i + " in detail.");
+                if (!sameState && state.getNumberOfNegtiveNetReserve() >= 0) {
+                    if (result == null) {
+                        result = state;
                     } else {
-                        break;
+                        double oldStdDev = result.getStdDev();
+                        double newStdDev = state.getStdDev();
+                        if (newStdDev == 0) {
+                            PCSPGUI.appendLog("Restart:" + numOfRestart
+                                    + " times. Found the best step, Standard Deviation=0. Stop running.");
+                            return state;
+                        } else if (newStdDev < oldStdDev) {
+                            PCSPGUI.appendLog("Restart:" + numOfRestart
+                                    + " times. Goto better step. Standard Deviation=" + state.getStdDev());
+                            result = state;
+                        }
                     }
                 }
+            }
+        }
+        return result;
+    }
 
-                ScheduleState finalState = search(maxLoads.length - j);
+    public ScheduleState run(int[] intervals, int[] capacities, int[] maxLoads, int restartTimes) {
+        if (intervals != null && maxLoads != null && intervals.length > 0 && maxLoads.length > 0) {
+            PCSPGUI.resetLog("Starting ...");
+            ScheduleState.initialize(intervals, capacities, maxLoads);
+
+            ScheduleState state = ScheduleState.generateRandomState();
+            int[] intervalNetReserves = state.getIntervalNetReserves();
+            int sumOfNetReserves = 0;
+            for (int i = 0; i < intervalNetReserves.length; i++) {
+                sumOfNetReserves += intervalNetReserves[i];
+            }
+
+            if (sumOfNetReserves >= 0) {
+                ScheduleState.initialize(intervals, capacities, maxLoads);
+
+                ScheduleState finalState = search(0, restartTimes);
                 if (finalState != null) {
-                    PCSPGUI.appendLog("Successful. Having " + j + " pieces of " + i + "  Schedule States:"
-                            + Arrays.toString(finalState.getUnitScheduleState()));
+                    PCSPGUI.appendLog("Successful. Standard Deviation=" + finalState.getStdDev());
                     return finalState;
                 }
             }
+            PCSPGUI.appendLog("Can't find solution. Failed.");
         }
-        PCSPGUI.appendLog("Can't find solution. Failed.");
         return null;
     }
 }

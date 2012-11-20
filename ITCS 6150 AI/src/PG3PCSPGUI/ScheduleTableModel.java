@@ -38,7 +38,7 @@ public class ScheduleTableModel extends AbstractTableModel {
             this.data[i][2] = "1";
         }
 
-        if (this.data.length > 10 && columnNames.length > 3) {
+        if (this.data.length >= 10 && columnNames.length >= 7) {
             // sample data
             this.data[1][3] = "80";
             this.data[1][4] = "90";

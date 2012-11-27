@@ -1,3 +1,8 @@
+/*
+ * UNC Charlotte ITCS 6150 Intelligence System Class, Final Project
+ * 
+ * by Yongkang Liu, 11/24/2012
+ */
 package PG3PCSP;
 
 import static org.junit.Assert.*;
@@ -6,6 +11,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+/**
+ * Unit Test cases for refactoring code.
+ */
 public class PG3PCSPTest {
 
     @Test

@@ -1,3 +1,8 @@
+/*
+ * UNC Charlotte ITCS 6150 Intelligence System Class, Final Project
+ * 
+ * by Yongkang Liu, 11/24/2012
+ */
 package PG3PCSPGUI;
 
 import java.awt.BorderLayout;
@@ -25,24 +30,30 @@ import PG3PCSP.PCSP;
 import PG3PCSP.ScheduleState;
 
 /**
- * TableDemo is just like SimpleTableDemo, except that it uses a custom TableModel.
+ * Main class to run the application.
  */
 public class PCSPGUI extends JPanel {
 
     private static final long serialVersionUID = 2554225509034244221L;
+
     private static final Color BK_COLOR = new Color(198, 198, 198);
+
+    private static JProgressBar bar;
+    private static JTextArea logTextArea;
+
     private ScheduleTableModel tableModel;
     private JTable table;
     private JTextField numOfUnitsEdit = new JTextField("7");
     private JTextField numOfIntervalsEdit = new JTextField("4");
     private JTextField restartTimes = new JTextField("500");
 
-    private static JProgressBar bar;
-    private static JTextArea logTextArea;
-
+    /**
+     * Run application in multi-thread mode to display the progress in GUI.
+     */
     public PCSPGUI() {
         super(new BorderLayout());
 
+        // Initialize the options of algorithms.
         JPanel panel1 = new JPanel(new GridLayout(1, 8));
         panel1.add(new JLabel("Restart #:"));
         panel1.add(this.restartTimes);
@@ -53,9 +64,11 @@ public class PCSPGUI extends JPanel {
         panel1.add(new JLabel("Intervals #:"));
         panel1.add(this.numOfIntervalsEdit);
 
+        // add SET button
         JButton setButton = new JButton("SET");
         panel1.add(setButton);
 
+        // add RUN button
         JButton runButton = new JButton("RUN");
         panel1.add(runButton);
 
@@ -133,6 +146,12 @@ public class PCSPGUI extends JPanel {
         add(scrollPaneLog, BorderLayout.SOUTH);
     }
 
+    /**
+     * Set JTable column width
+     * 
+     * @param t
+     *            The JTable instance.
+     */
     private void setColumnWidth(JTable t) {
         TableColumn column = null;
         for (int i = 0; i < t.getColumnCount(); i++) {
@@ -145,6 +164,11 @@ public class PCSPGUI extends JPanel {
         }
     }
 
+    /**
+     * Return max loads
+     * 
+     * @return The array including max loads.
+     */
     private int[] getMaxLoads() {
         int col = this.table.getColumnCount();
         int[] maxLoads = new int[col - 3];
@@ -155,6 +179,11 @@ public class PCSPGUI extends JPanel {
         return maxLoads;
     }
 
+    /**
+     * Return capacities
+     * 
+     * @return The array including capacities.
+     */
     private int[] getCapacities() {
         int row = this.table.getRowCount();
         int[] capacities = new int[row - 4];
@@ -165,6 +194,11 @@ public class PCSPGUI extends JPanel {
         return capacities;
     }
 
+    /**
+     * Count the intervals
+     * 
+     * @return The array including all intervals.
+     */
     private int[] getIntervals() {
         int row = this.table.getRowCount();
         int[] intervals = new int[row - 4];
@@ -175,6 +209,12 @@ public class PCSPGUI extends JPanel {
         return intervals;
     }
 
+    /**
+     * Update the net reserves values in the JTable
+     * 
+     * @param intervalNetReserves
+     *            The net reserves values.
+     */
     private void showIntervalNetReserves(int[] intervalNetReserves) {
         int row = this.table.getRowCount();
         int col = this.table.getColumnCount();
@@ -187,6 +227,14 @@ public class PCSPGUI extends JPanel {
         }
     }
 
+    /**
+     * Update the schedule state in the JTable
+     * 
+     * @param unitScheduleState
+     *            The schedule states.
+     * @param unitIntervals
+     *            The interval of each power system component maintenance.
+     */
     private void showUnitScheduleState(int[] unitScheduleState, int[] unitIntervals) {
         for (int i = 0; i < unitScheduleState.length; i++) {
             for (int j = 0; j < unitIntervals[i]; j++) {
@@ -195,6 +243,9 @@ public class PCSPGUI extends JPanel {
         }
     }
 
+    /**
+     * Reset panel and clear data.
+     */
     private void resetPanel() {
         PCSPGUI.resetLog("Initializing screen ...");
         int col = this.table.getColumnCount();
@@ -207,6 +258,12 @@ public class PCSPGUI extends JPanel {
         }
     }
 
+    /**
+     * Update progress bar
+     * 
+     * @param num
+     *            The new number of progress bar.
+     */
     public static void showProgress(int num) {
         if (PCSPGUI.bar != null) {
             PCSPGUI.bar.setValue(num);
@@ -263,6 +320,11 @@ public class PCSPGUI extends JPanel {
         frame.setVisible(true);
     }
 
+    /**
+     * The main function.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
@@ -273,6 +335,9 @@ public class PCSPGUI extends JPanel {
         });
     }
 
+    /**
+     * The CellColorRenderer class is for color in the JTable.
+     */
     private class CellColorRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = -6999578905146410254L;
 

@@ -1,13 +1,32 @@
+/*
+ * UNC Charlotte ITCS 6150 Intelligence System Class, Final Project
+ * 
+ * by Yongkang Liu, 11/24/2012
+ */
 package PG3PCSPGUI;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * The JTable data class. Store data of JTable.
+ */
 public class ScheduleTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 3939466186911495692L;
 
+    // The table column names.
     private String[] columnNames;
+
+    // The values of cells.
     private Object[][] data;
 
+    /**
+     * Constructor of ScheduleTableModel class
+     * 
+     * @param numOfIntervals
+     *            The number of intervals.
+     * @param numOfUnits
+     *            The number of units.
+     */
     public ScheduleTableModel(int numOfIntervals, int numOfUnits) {
         this.columnNames = new String[3 + numOfIntervals];
         this.data = new Object[4 + numOfUnits][3 + numOfIntervals];
@@ -15,6 +34,9 @@ public class ScheduleTableModel extends AbstractTableModel {
         this.initializeObject();
     }
 
+    /**
+     * Initialize sample values
+     */
     private void initializeObject() {
         for (int i = 0; i < this.columnNames.length; i++) {
             this.columnNames[i] = String.valueOf(i);
@@ -62,18 +84,42 @@ public class ScheduleTableModel extends AbstractTableModel {
         }
     }
 
+    /**
+     * Return total number of column.
+     */
     public int getColumnCount() {
         return columnNames.length;
     }
 
+    /**
+     * Return total number of rows.
+     */
     public int getRowCount() {
         return data.length;
     }
 
+    /**
+     * Get the value of a cell
+     * 
+     * @param row
+     *            The row number in the table.
+     * @param col
+     *            The column number in the table.
+     * @return Return the cell value.
+     */
     public Object getValueAt(int row, int col) {
         return data[row][col];
     }
 
+    /**
+     * Get if the cell is editable.
+     * 
+     * @param row
+     *            The row number in the table.
+     * @param col
+     *            The column number in the table.
+     * @return Return true if the cell is editable, otherwise return false.
+     */
     public boolean isCellEditable(int row, int col) {
         int numOfRows = this.data.length;
 
@@ -84,10 +130,27 @@ public class ScheduleTableModel extends AbstractTableModel {
         }
     }
 
+    /**
+     * Get the column name.
+     * 
+     * @param col
+     *            The column
+     * @return Return the column name.
+     */
     public String getColumnName(int col) {
         return columnNames[col];
     }
 
+    /**
+     * Set value at a cell.
+     * 
+     * @param value
+     *            The new value
+     * @param row
+     *            The row number in the table.
+     * @param col
+     *            The column number in the table.
+     */
     public void setValueAt(Object value, int row, int col) {
         this.data[row][col] = value;
         fireTableCellUpdated(row, col);

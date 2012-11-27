@@ -1,3 +1,8 @@
+/*
+ * UNC Charlotte ITCS 6150 Intelligence System Class, Final Project
+ * 
+ * by Yongkang Liu, 11/24/2012
+ */
 package PG3PCSP;
 
 import java.util.Arrays;
@@ -5,20 +10,36 @@ import java.util.Random;
 
 import PG3PCSPGUI.PCSPGUI;
 
+/**
+ * The Hill Climbing algorithm class to solve the PCSP
+ */
 public class PCSP {
     // The random instance.
     private Random r = new Random();
 
+    // PCSP instance in singleton pattern
     private static PCSP instance = new PCSP();
 
+    // The private constructor in singleton pattern
     private PCSP() {
-
     }
 
+    /**
+     * The getInstance function in singleton pattern..
+     * 
+     * @return return the PCSP instance.
+     */
     public static PCSP getInstance() {
         return PCSP.instance;
     }
 
+    /**
+     * Create next better state.
+     * 
+     * @param current
+     *            The current state.
+     * @return Return the next better state.
+     */
     public ScheduleState gotoBetterState(ScheduleState current) {
         int iUnit = this.r.nextInt(current.getUnitScheduleState().length);
 
@@ -36,6 +57,7 @@ public class PCSP {
             int[] tempNetReserves = Arrays.copyOf(currentNetReserves, currentNetReserves.length);
             int[] tempState = Arrays.copyOf(currentState, currentState.length);
 
+            // Create new state
             ScheduleState tempSchedule = new ScheduleState(tempState, tempNetReserves);
             boolean isBetterMove = tempSchedule.moveUnit(iUnit, i);
 
@@ -46,7 +68,14 @@ public class PCSP {
         return current;
     }
 
-    private ScheduleState search(int numOfIntervals, int restartTimes) {
+    /**
+     * Hill Climbing algorithm
+     * 
+     * @param restartTimes
+     *            The max number of random restart times.
+     * @return Return the ScheduleState instance.
+     */
+    private ScheduleState search(int restartTimes) {
         int numOfRestart = 0;
         ScheduleState result = null;
 
@@ -65,7 +94,7 @@ public class PCSP {
                     state = tempState;
                 }
 
-                if (!sameState && state.getNumberOfNegtiveNetReserve() >= 0) {
+                if (!sameState && state.getNumberOfNegativeNetReserve() >= 0) {
                     if (result == null) {
                         result = state;
                     } else {
@@ -87,6 +116,19 @@ public class PCSP {
         return result;
     }
 
+    /**
+     * The main function of Hill Climbing algorithm.
+     * 
+     * @param intervals
+     *            The interval of each power system component maintenance.
+     * @param capacities
+     *            The capacity of each power system component.
+     * @param maxLoads
+     *            The maximum loads expected during each interval.
+     * @param restartTimes
+     *            The max number of random restart times.
+     * @return Return ScheduleState instance.
+     */
     public ScheduleState run(int[] intervals, int[] capacities, int[] maxLoads, int restartTimes) {
         if (intervals != null && maxLoads != null && intervals.length > 0 && maxLoads.length > 0) {
             PCSPGUI.resetLog("Starting ...");
@@ -102,7 +144,7 @@ public class PCSP {
             if (sumOfNetReserves >= 0) {
                 ScheduleState.initialize(intervals, capacities, maxLoads);
 
-                ScheduleState finalState = search(0, restartTimes);
+                ScheduleState finalState = search(restartTimes);
                 if (finalState != null) {
                     PCSPGUI.appendLog("Successful. Standard Deviation=" + finalState.getStdDev());
                     return finalState;

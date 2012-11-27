@@ -43,9 +43,9 @@ public class ScheduleTableModel extends AbstractTableModel {
         }
 
         this.data[0][2] = "Interval Name";
-        this.data[1][2] = "Max. loads";
+        this.data[1][2] = "Max. loads (MW)";
         this.data[2][0] = "Unit Name";
-        this.data[2][1] = "Unit Capacity";
+        this.data[2][1] = "Capacity (MW)";
         this.data[2][2] = "Unit intervals";
         this.data[this.data.length - 1][2] = "Net reserve";
 

@@ -157,7 +157,7 @@ public class PCSPGUI extends JPanel {
         for (int i = 0; i < t.getColumnCount(); i++) {
             column = t.getColumnModel().getColumn(i);
             if (i < 3) {
-                column.setPreferredWidth(80); // third column is bigger
+                column.setPreferredWidth(95); // third column is bigger
             } else {
                 column.setPreferredWidth(40);
             }

@@ -112,7 +112,7 @@ public class ScheduleTableModel extends AbstractTableModel {
     }
 
     /**
-     * Get if the cell is editable.
+     * Check if the cell is editable.
      * 
      * @param row
      *            The row number in the table.

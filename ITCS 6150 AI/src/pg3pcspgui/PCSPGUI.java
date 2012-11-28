@@ -25,10 +25,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 import pg3pcsp.PCSP;
 import pg3pcsp.ScheduleState;
-
 
 /**
  * Main class to run the application.
@@ -110,10 +110,16 @@ public class PCSPGUI extends JPanel {
             public void actionPerformed(ActionEvent event) {
                 bar.setMaximum(Integer.valueOf(restartTimes.getText()));
                 bar.setValue(0);
-                table.setModel(new ScheduleTableModel(Integer.valueOf(numOfIntervalsEdit.getText()), Integer
-                        .valueOf(numOfUnitsEdit.getText())));
-                setColumnWidth(table);
-                table.repaint();
+                TableModel model = table.getModel();
+                int col = model.getColumnCount() - 3;
+                int row = model.getRowCount() - 4;
+                if (col != Integer.valueOf(numOfIntervalsEdit.getText())
+                        || row != Integer.valueOf(numOfUnitsEdit.getText())) {
+                    table.setModel(new ScheduleTableModel(Integer.valueOf(numOfIntervalsEdit.getText()), Integer
+                            .valueOf(numOfUnitsEdit.getText())));
+                    setColumnWidth(table);
+                    table.repaint();
+                }
             }
         });
 

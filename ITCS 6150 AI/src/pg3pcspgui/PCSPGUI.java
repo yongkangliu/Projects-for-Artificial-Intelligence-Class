@@ -3,7 +3,7 @@
  * 
  * by Yongkang Liu, 11/24/2012
  */
-package PG3PCSPGUI;
+package pg3pcspgui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,8 +26,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import PG3PCSP.PCSP;
-import PG3PCSP.ScheduleState;
+import pg3pcsp.PCSP;
+import pg3pcsp.ScheduleState;
+
 
 /**
  * Main class to run the application.

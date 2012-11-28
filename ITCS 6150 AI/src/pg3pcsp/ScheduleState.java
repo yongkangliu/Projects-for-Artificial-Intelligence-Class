@@ -3,7 +3,7 @@
  * 
  * by Yongkang Liu, 11/24/2012
  */
-package PG3PCSP;
+package pg3pcsp;
 
 import java.util.Random;
 

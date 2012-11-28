@@ -3,12 +3,13 @@
  * 
  * by Yongkang Liu, 11/24/2012
  */
-package PG3PCSP;
+package pg3pcsp;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import PG3PCSPGUI.PCSPGUI;
+import pg3pcspgui.PCSPGUI;
+
 
 /**
  * The Hill Climbing algorithm class to solve the PCSP

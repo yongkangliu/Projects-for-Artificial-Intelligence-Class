@@ -3,7 +3,7 @@
  * 
  * by Yongkang Liu, 11/24/2012
  */
-package PG3PCSPGUI;
+package pg3pcspgui;
 
 import javax.swing.table.AbstractTableModel;
 

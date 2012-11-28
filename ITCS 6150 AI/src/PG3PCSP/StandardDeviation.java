@@ -5,8 +5,6 @@
  */
 package PG3PCSP;
 
-import java.util.Arrays;
-
 /**
  * The mathematics formula of standard deviation
  */
@@ -78,22 +76,5 @@ public class StandardDeviation {
      */
     public double getStdDev() {
         return Math.sqrt(getVariance());
-    }
-
-    /**
-     * Calculate median value.
-     * 
-     * @return Return median value.
-     */
-    public double median() {
-        double[] b = new double[this.data.length];
-        System.arraycopy(this.data, 0, b, 0, b.length);
-        Arrays.sort(b);
-
-        if (this.data.length % 2 == 0) {
-            return (b[(b.length / 2) - 1] + b[b.length / 2]) / 2.0;
-        } else {
-            return b[b.length / 2];
-        }
     }
 }
